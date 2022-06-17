@@ -1,0 +1,431 @@
+#:kivy 2.0.0
+
+<ReportsWindow>:
+    ScreenManager:
+        id: reports_screen_manager
+        ReportsMainWindow:
+        
+        SalesReportsWindow:
+        EditSalesReportsWindow:
+        
+        InventoryReportsWindow:
+        EditInventoryReportsWindow:
+
+        DrawerReportsWindow:
+        EditDrawerReportsWindow:
+
+<ReportsMainWindow>:
+    name: 'Reports Main Screen'
+    MDBoxLayout:
+        orientation: "vertical"
+        MDToolbar:
+            pos_hint: {"top": 1}
+            title: 'Reports'
+            #left_action_items: [['menu']] # lambda x: app.open_drawer()
+            right_action_items: [['dots-vertical']]
+        MDCard:
+            orientation: "vertical"
+            size_hint: 1, 1
+            #height: sales.height
+            #focus_behavior: True
+            #ripple_behavior: True
+            pos_hint: {"center_x": .5, "center_y": .5}
+            padding: "20dp", "20dp", "20dp", "20dp"
+            elevation: 0
+            radius: 12
+            ScrollView:
+                MDList:
+                    OneLineIconListItem:
+                        text: "Sales Reports"
+                        theme_text_color: "Primary"
+                        font_style: "H5"
+                        bold: True
+                        #divider: "Inset"
+                        on_release: root.parent.parent.switch_screen("Sales Reports Screen", "left")
+                        IconLeftWidget:
+                            icon: "table"
+                    OneLineIconListItem:
+                        text: "Inventory Reports"
+                        theme_text_color: "Primary"
+                        font_style: "H5"
+                        bold: True
+                        #divider: "Inset"
+                        on_release: root.parent.parent.switch_screen("Inventory Reports Screen", "left")
+                        IconLeftWidget:
+                            icon: "receipt"
+                    OneLineIconListItem:
+                        text: "Drawer Reports"
+                        theme_text_color: "Primary"
+                        font_style: "H5"
+                        bold: True
+                        #divider: "Inset"
+                        on_release: root.parent.parent.switch_screen("Drawer Reports Screen", "left")
+                        IconLeftWidget:
+                            icon: "table"
+
+<SalesReportsWindow>:
+    name: 'Sales Reports Screen'
+    MDBoxLayout:
+        orientation: "vertical"
+        MDToolbar:
+            title: "Sales Reports"
+            use_overflow: True
+            elevation: 10
+            pos_hint: {"top": 1}
+            left_action_items: [['arrow-left', lambda x:root.parent.parent.switch_screen("Reports Main Screen", "right")]]
+            right_action_items: [['magnify']]
+        ScrollView:
+            MDBoxLayout:
+                orientation: "vertical"
+                adaptive_height: True
+                spacing: "20dp"
+                padding: "20dp", "20dp", "20dp", "20dp"
+                MDCard:
+                    orientation: "vertical"
+                    size_hint: .98, None
+                    height: options_details.height
+                    #focus_behavior: True
+                    #ripple_behavior: True
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                    radius: 12
+                    MDBoxLayout:
+                        id: options_details
+                        orientation: "vertical"
+                        spacing: "10dp"
+                        adaptive_height: True
+                        padding: "20dp", "20dp", "20dp", "20dp"
+                        MDLabel:
+                            text: "Options"
+                            theme_text_color: "Primary"
+                            font_style: "H5"
+                            bold: True
+                            adaptive_height: True
+                MDCard:
+                    orientation: "vertical"
+                    size_hint: .98, None
+                    height: sales_details.height
+                    #focus_behavior: True
+                    #ripple_behavior: True
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                    radius: 12
+                    MDBoxLayout:
+                        id: sales_details
+                        orientation: "vertical"
+                        spacing: "10dp"
+                        adaptive_height: True
+                        padding: "20dp", "20dp", "20dp", "20dp"
+                        MDLabel:
+                            text: "Sales Items"
+                            theme_text_color: "Primary"
+                            font_style: "H5"
+                            bold: True
+                            adaptive_height: True
+                        ScrollView:
+                            MDList:
+                                id: sales_reports_list
+                MDCard:
+                    orientation: "vertical"
+                    size_hint: .98, None
+                    height: sales_graphs_details.height
+                    #focus_behavior: True
+                    #ripple_behavior: True
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                    radius: 12
+                    MDBoxLayout:
+                        id: sales_graphs_details
+                        orientation: "vertical"
+                        spacing: "10dp"
+                        adaptive_height: True
+                        padding: "20dp", "20dp", "20dp", "20dp"
+                        MDLabel:
+                            text: "Graphs"
+                            theme_text_color: "Primary"
+                            font_style: "H5"
+                            bold: True
+                            adaptive_height: True
+                MDFloatingActionButton:
+                    icon: "plus"
+                    anchor: "right"
+                    on_release: root.parent.parent.switch_screen("Edit Sales Reports Screen", "left")
+                    pos_hint: {"center_x": .95, "center_y": .5}
+                    #md_bg_color: app.theme_cls.primary_color
+
+<EditSalesReportsWindow>:
+    name: 'Edit Sales Reports Screen'
+    MDBoxLayout:
+        orientation: "vertical"
+        MDToolbar:
+            title: "Edit Sales"
+            use_overflow: True
+            elevation: 10
+            pos_hint: {"top": 1}
+            left_action_items: [['arrow-left', lambda x:root.parent.parent.switch_screen("Sales Reports Screen", "right")]]
+            right_action_items: [['content-save']]
+        ScrollView:
+            MDBoxLayout:
+                orientation: "vertical"
+                adaptive_height: True
+                spacing: "20dp"
+                padding: "20dp", "20dp", "20dp", "20dp"
+                MDCard:
+                    orientation: "vertical"
+                    size_hint: .98, None
+                    height: user_details.height
+                    #focus_behavior: True
+                    #ripple_behavior: True
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                    radius: 12
+                    MDBoxLayout:
+                        id: user_details
+                        orientation: "vertical"
+                        spacing: "10dp"
+                        adaptive_height: True
+                        padding: "20dp", "20dp", "20dp", "20dp"
+                        MDLabel:
+                            text: "Edit Sales"
+                            theme_text_color: "Primary"
+                            font_style: "H5"
+                            bold: True
+                            adaptive_height: True
+                        #MDSeparator:
+                        MDTextField:
+                            id: drawer_id
+                            hint_text: "Receipt Number"
+                        MDTextField:
+                            id: date
+                            hint_text: "Date"
+                        MDTextField:
+                            id: products
+                            hint_text: "Products"
+                        MDTextField:
+                            id: quantty
+                            hint_text: "Quantity"
+                        MDTextField:
+                            id: weight
+                            hint_text: "Weight"
+                        MDTextField:
+                            id: zwl_price
+                            hint_text: "ZWL Price"
+                        MDTextField:
+                            id: usd_price
+                            hint_text: "USD Price"
+                        MDTextField:
+                            id: expected_zwl
+                            hint_text: "Expected ZWL"
+                            #focus: True
+                        MDTextField:
+                            id: actual_zwl
+                            hint_text: "Actual ZWL"
+                        MDTextField:
+                            id: expected_usd
+                            hint_text: "Expected USD"
+                        MDTextField:
+                            id: actual_usd
+                            hint_text: "Actual USD"
+                        MDTextField:
+                            id: card_sales
+                            hint_text: "Card Sales"
+                        MDTextField:
+                            id: ecocash_sales
+                            hint_text: "Ecocash Sales"
+                        MDTextField:
+                            id: closing_time
+                            hint_text: "Closing Time"
+
+<InventoryReportsWindow>:
+    name: 'Inventory Reports Screen'
+
+<EditInventoryReportsWindow>:
+    name: 'Edit Inventory Reports Screen'
+    MDBoxLayout:
+        orientation: "vertical"
+        MDToolbar:
+            title: "Edit Drawer"
+            use_overflow: True
+            elevation: 10
+            pos_hint: {"top": 1}
+            left_action_items: [['arrow-left', lambda x:root.parent.parent.switch_screen("Drawer Reports Screen", "right")]]
+            right_action_items: [['content-save']]
+        ScrollView:
+            MDBoxLayout:
+                orientation: "vertical"
+                adaptive_height: True
+                spacing: "20dp"
+                padding: "20dp", "20dp", "20dp", "20dp"
+                MDCard:
+                    orientation: "vertical"
+                    size_hint: .98, None
+                    height: user_details.height
+                    #focus_behavior: True
+                    #ripple_behavior: True
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                    radius: 12
+                    MDBoxLayout:
+                        id: user_details
+                        orientation: "vertical"
+                        spacing: "10dp"
+                        adaptive_height: True
+                        padding: "20dp", "20dp", "20dp", "20dp"
+                        MDLabel:
+                            text: "Edit Drawer"
+                            theme_text_color: "Primary"
+                            font_style: "H5"
+                            bold: True
+                            adaptive_height: True
+                        #MDSeparator:
+                        MDTextField:
+                            id: drawer_id
+                            hint_text: "Drawer ID"
+                        MDTextField:
+                            id: date
+                            hint_text: "Date"
+                        MDTextField:
+                            id: date
+                            hint_text: "Operator"
+                        MDTextField:
+                            id: opening_time
+                            hint_text: "Opening Time"
+                        MDTextField:
+                            id: float_zwl
+                            hint_text: "Float ZWL"
+                        MDTextField:
+                            id: float_usd
+                            hint_text: "Float USD"
+                        MDTextField:
+                            id: status
+                            hint_text: "Status"
+                        MDTextField:
+                            id: expected_zwl
+                            hint_text: "Expected ZWL"
+                            #focus: True
+                        MDTextField:
+                            id: actual_zwl
+                            hint_text: "Actual ZWL"
+                        MDTextField:
+                            id: expected_usd
+                            hint_text: "Expected USD"
+                        MDTextField:
+                            id: actual_usd
+                            hint_text: "Actual USD"
+                        MDTextField:
+                            id: card_sales
+                            hint_text: "Card Sales"
+                        MDTextField:
+                            id: ecocash_sales
+                            hint_text: "Ecocash Sales"
+                        MDTextField:
+                            id: closing_time
+                            hint_text: "Closing Time"
+
+<DrawerReportsWindow>:
+    name: 'Drawer Reports Screen'
+    MDBoxLayout:
+        orientation: "vertical"
+        MDToolbar:
+            title: "Drawers"
+            use_overflow: True
+            elevation: 10
+            pos_hint: {"top": 1}
+            left_action_items: [['arrow-left', lambda x:root.parent.parent.switch_screen("Reports Main Screen", "right")]]
+            right_action_items: [['magnify']]
+        MDCard:
+            orientation: "vertical"
+            size_hint: 1, 1
+            #height: drawer_reports_list.height
+            #focus_behavior: True
+            #ripple_behavior: True
+            pos_hint: {"center_x": .5, "center_y": .5}
+            padding: "20dp", "20dp", "20dp", "20dp"
+            radius: 12
+            elevation: 0
+            ScrollView:
+                MDList:
+                    id: drawer_reports_list
+        MDFloatingActionButton:
+            icon: "plus"
+            anchor: "right"
+            on_release: root.parent.parent.switch_screen("Edit Drawer Reports Screen", "left")
+            pos_hint: {"center_x": .95, "center_y": .5}
+            #md_bg_color: app.theme_cls.primary_color
+
+<EditDrawerReportsWindow>:
+    name: 'Edit Drawer Reports Screen'
+    MDBoxLayout:
+        orientation: "vertical"
+        MDToolbar:
+            title: "Edit Drawer"
+            use_overflow: True
+            elevation: 10
+            pos_hint: {"top": 1}
+            left_action_items: [['arrow-left', lambda x:root.parent.parent.switch_screen("Drawer Reports Screen", "right")]]
+            right_action_items: [['content-save']]
+        ScrollView:
+            MDBoxLayout:
+                orientation: "vertical"
+                adaptive_height: True
+                spacing: "20dp"
+                padding: "20dp", "20dp", "20dp", "20dp"
+                MDCard:
+                    orientation: "vertical"
+                    size_hint: .98, None
+                    height: drawer_details.height
+                    #focus_behavior: True
+                    #ripple_behavior: True
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                    radius: 12
+                    MDBoxLayout:
+                        id: drawer_details
+                        orientation: "vertical"
+                        spacing: "10dp"
+                        adaptive_height: True
+                        padding: "20dp", "20dp", "20dp", "20dp"
+                        MDLabel:
+                            text: "Edit Drawer"
+                            theme_text_color: "Primary"
+                            font_style: "H5"
+                            bold: True
+                            adaptive_height: True
+                        #MDSeparator:
+                        MDTextField:
+                            id: drawer_id
+                            hint_text: "Drawer ID"
+                        MDTextField:
+                            id: date
+                            hint_text: "Date"
+                        MDTextField:
+                            id: date
+                            hint_text: "Operator"
+                        MDTextField:
+                            id: opening_time
+                            hint_text: "Opening Time"
+                        MDTextField:
+                            id: float_zwl
+                            hint_text: "Float ZWL"
+                        MDTextField:
+                            id: float_usd
+                            hint_text: "Float USD"
+                        MDTextField:
+                            id: status
+                            hint_text: "Status"
+                        MDTextField:
+                            id: expected_zwl
+                            hint_text: "Expected ZWL"
+                            #focus: True
+                        MDTextField:
+                            id: actual_zwl
+                            hint_text: "Actual ZWL"
+                        MDTextField:
+                            id: expected_usd
+                            hint_text: "Expected USD"
+                        MDTextField:
+                            id: actual_usd
+                            hint_text: "Actual USD"
+                        MDTextField:
+                            id: card_sales
+                            hint_text: "Card Sales"
+                        MDTextField:
+                            id: ecocash_sales
+                            hint_text: "Ecocash Sales"
+                        MDTextField:
+                            id: closing_time
+                            hint_text: "Closing Time"

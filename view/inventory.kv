@@ -1,0 +1,362 @@
+#:kivy 2.0.0
+
+<InventoryManagement>:
+    ScreenManager:
+        id: inventory_screen_manager
+        InventoryManagementWindow:
+        
+        ProductsHomeWindow:
+        AddProductsWindow:
+        EditProductsWindow:
+        
+        ReceivingHomeWindow:
+        AddReceivingWindow:
+        EditReceivingWindow:
+        
+        SuppliersHomeWindow:
+        AddSuppliersWindow:
+        EditSuppliersWindow:
+
+<InventoryManagementWindow>:
+    name: 'Inventory Management Screen'
+    MDBoxLayout:
+        orientation: "vertical"
+        MDToolbar:
+            pos_hint: {"top": 1}
+            title: 'Inventory Management'
+            #left_action_items: [['menu']] # lambda x: app.open_drawer()
+            right_action_items: [['dots-vertical']]
+        MDCard:
+            orientation: "vertical"
+            size_hint: 1, 1
+            #height: sales.height
+            #focus_behavior: True
+            #ripple_behavior: True
+            pos_hint: {"center_x": .5, "center_y": .5}
+            padding: "20dp", "20dp", "20dp", "20dp"
+            elevation: 0
+            radius: 12
+            ScrollView:
+                MDList:
+                    #orientation: "vertical"
+                    #pos_hint: {"top": 1}
+                    OneLineIconListItem:
+                        text: "Products"
+                        theme_text_color: "Primary"
+                        font_style: "H5"
+                        bold: True
+                        #divider: "Inset"
+                        on_release: root.parent.parent.switch_screen("Products Home Screen", "left")
+                        IconLeftWidget:
+                            icon: "table"
+                    OneLineIconListItem:
+                        text: "Receive Inventory"
+                        theme_text_color: "Primary"
+                        font_style: "H5"
+                        bold: True
+                        #divider: "Inset"
+                        on_release: root.parent.parent.switch_screen("Receiving Home Screen", "left")
+                        IconLeftWidget:
+                            icon: "receipt"
+                    OneLineIconListItem:
+                        text: "Suppliers"
+                        theme_text_color: "Primary"
+                        font_style: "H5"
+                        bold: True
+                        #divider: "Inset"
+                        on_release: root.parent.parent.switch_screen("Suppliers Home Screen", "left")
+                        IconLeftWidget:
+                            icon: "table"
+
+<ProductsHomeWindow>:
+    name: 'Products Home Screen'
+    MDBoxLayout:
+        orientation: "vertical"
+        MDToolbar:
+            title: "Products"
+            use_overflow: True
+            elevation: 10
+            pos_hint: {"top": 1}
+            left_action_items: [['arrow-left', lambda x:root.parent.parent.switch_screen("Inventory Management Screen", "right")]]
+            right_action_items: [['magnify']]
+        MDCard:
+            orientation: "vertical"
+            size_hint: 1, 1
+            #height: products_list.height
+            #focus_behavior: True
+            #ripple_behavior: True
+            pos_hint: {"center_x": .5, "center_y": .5}
+            padding: "20dp", "20dp", "20dp", "20dp"
+            radius: 12
+            elevation: 0
+            ScrollView:
+                MDList:
+                    id: products_list
+        MDFloatingActionButton:
+            icon: "plus"
+            anchor: "right"
+            on_release: root.parent.parent.switch_screen("Add Products Screen", "left")
+            pos_hint: {"center_x": .95, "center_y": .5}
+            #md_bg_color: app.theme_cls.primary_color
+
+<AddProductsWindow>:
+    name: 'Add Products Screen'
+    MDBoxLayout:
+        orientation: "vertical"
+        MDToolbar:
+            title: "Create Product"
+            use_overflow: True
+            elevation: 10
+            pos_hint: {"top": 1}
+            left_action_items: [['arrow-left', lambda x:root.parent.parent.switch_screen("Products Home Screen", "right")]]
+            right_action_items: [['content-save']]
+        ScrollView:
+            MDBoxLayout:
+                orientation: "vertical"
+                adaptive_height: True
+                spacing: "20dp"
+                padding: "20dp", "20dp", "20dp", "20dp"
+                MDCard:
+                    orientation: "vertical"
+                    size_hint: .98, None
+                    height: product_details.height
+                    #focus_behavior: True
+                    #ripple_behavior: True
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                    radius: 12
+                    MDBoxLayout:
+                        id: product_details
+                        orientation: "vertical"
+                        spacing: "10dp"
+                        adaptive_height: True
+                        padding: "20dp", "20dp", "20dp", "20dp"
+                        MDLabel:
+                            text: "Products Details"
+                            theme_text_color: "Primary"
+                            font_style: "H5"
+                            bold: True
+                            adaptive_height: True
+                        #MDSeparator:
+                        MDTextField:
+                            id: product_name
+                            hint_text: "Product Name"
+                            #focus: True
+                        MDTextField:
+                            id: product_quantity
+                            hint_text: "Product Quantity (units)"
+                        MDTextField:
+                            id: product_weight
+                            hint_text: "Product Weight (kgs)"
+                        MDTextField:
+                            id: product_zwl_price
+                            hint_text: "ZWL Unit Price"
+                        MDTextField:
+                            id: product_usd_price
+                            hint_text: "USD Unit Price"
+                        MDTextField:
+                            id: measurement_category
+                            hint_text: "Measurement Category"
+                            helper_text: 'Choose "Quantity or Weight"'
+                            helper_text_mode: "persistent"
+
+<EditProductsWindow>:
+    name: 'Edit Products Screen'
+    MDBoxLayout:
+        orientation: "vertical"
+        MDToolbar:
+            title: "Edit Product"
+            use_overflow: True
+            elevation: 10
+            pos_hint: {"top": 1}
+            left_action_items: [['arrow-left', lambda x:root.parent.parent.switch_screen("Inventory Management Screen", "right")]]
+            right_action_items: [['delete'], ['content-save']]
+        ScrollView:
+            MDBoxLayout:
+                orientation: "vertical"
+                adaptive_height: True
+                spacing: "20dp"
+                padding: "20dp", "20dp", "20dp", "20dp"
+                MDCard:
+                    orientation: "vertical"
+                    size_hint: .98, None
+                    height: product_details.height
+                    #focus_behavior: True
+                    #ripple_behavior: True
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                    radius: 12
+                    MDBoxLayout:
+                        id: product_details
+                        orientation: "vertical"
+                        spacing: "10dp"
+                        adaptive_height: True
+                        padding: "20dp", "20dp", "20dp", "20dp"
+                        MDLabel:
+                            text: "Products Details"
+                            theme_text_color: "Primary"
+                            font_style: "H5"
+                            bold: True
+                            adaptive_height: True
+                        #MDSeparator:
+                        MDTextField:
+                            id: product_name
+                            hint_text: "Product Name"
+                            #focus: True
+                        MDTextField:
+                            id: product_quantity
+                            hint_text: "Product Quantity (units)"
+                        MDTextField:
+                            id: product_weight
+                            hint_text: "Product Weight (kgs)"
+                        MDTextField:
+                            id: product_zwl_price
+                            hint_text: "ZWL Unit Price"
+                        MDTextField:
+                            id: product_usd_price
+                            hint_text: "USD Unit Price"
+                        MDTextField:
+                            id: measurement_category
+                            hint_text: "Measurement Category"
+                            helper_text: 'Choose "Quantity or Weight"'
+                            helper_text_mode: "persistent"
+
+<ReceivingHomeWindow>:
+    name: 'Receiving Home Screen'
+
+<AddReceivingWindow>:
+    name: 'Add Receiving Screen'
+
+<EditReceivingWindow>:
+    name: 'Edit Receiving Screen'
+
+<SuppliersHomeWindow>:
+    name: 'Suppliers Home Screen'
+    MDBoxLayout:
+        orientation: "vertical"
+        MDToolbar:
+            title: "Suppliers"
+            use_overflow: True
+            elevation: 10
+            pos_hint: {"top": 1}
+            left_action_items: [['arrow-left', lambda x:root.parent.parent.switch_screen("Inventory Management Screen", "right")]]
+            right_action_items: [['magnify']]
+        MDCard:
+            orientation: "vertical"
+            size_hint: 1, 1
+            #height: suppliers_list.height
+            #focus_behavior: True
+            #ripple_behavior: True
+            pos_hint: {"center_x": .5, "center_y": .5}
+            padding: "20dp", "20dp", "20dp", "20dp"
+            radius: 12
+            elevation: 0
+            ScrollView:
+                MDList:
+                    id: suppliers_list
+        MDFloatingActionButton:
+            icon: "plus"
+            anchor: "right"
+            on_release: root.parent.parent.switch_screen("Add Suppliers Screen", "left")
+            pos_hint: {"center_x": .95, "center_y": .5}
+            #md_bg_color: app.theme_cls.primary_color
+
+<AddSuppliersWindow>:
+    name: 'Add Suppliers Screen'
+    MDBoxLayout:
+        orientation: "vertical"
+        MDToolbar:
+            title: "Create Supplier"
+            use_overflow: True
+            elevation: 10
+            pos_hint: {"top": 1}
+            left_action_items: [['arrow-left', lambda x:root.parent.parent.switch_screen("Suppliers Home Screen", "right")]]
+            right_action_items: [['content-save']]
+        ScrollView:
+            MDBoxLayout:
+                orientation: "vertical"
+                adaptive_height: True
+                spacing: "20dp"
+                padding: "20dp", "20dp", "20dp", "20dp"
+                MDCard:
+                    orientation: "vertical"
+                    size_hint: .98, None
+                    height: user_details.height
+                    #focus_behavior: True
+                    #ripple_behavior: True
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                    radius: 12
+                    MDBoxLayout:
+                        id: user_details
+                        orientation: "vertical"
+                        spacing: "10dp"
+                        adaptive_height: True
+                        padding: "20dp", "20dp", "20dp", "20dp"
+                        MDLabel:
+                            text: "Supplier Details"
+                            theme_text_color: "Primary"
+                            font_style: "H5"
+                            bold: True
+                            adaptive_height: True
+                        #MDSeparator:
+                        MDTextField:
+                            id: supplier_name
+                            hint_text: "Supplier Name"
+                        MDTextField:
+                            id: tel_cell
+                            hint_text: "Tel/Cell Number"
+                        MDTextField:
+                            id: address
+                            hint_text: "Business Address"
+                        MDTextField:
+                            id: email
+                            hint_text: "Email Address"
+
+<EditSuppliersWindow>:
+    name: 'Edit Suppliers Screen'
+    MDBoxLayout:
+        orientation: "vertical"
+        MDToolbar:
+            title: "Edit Supplier"
+            use_overflow: True
+            elevation: 10
+            pos_hint: {"top": 1}
+            left_action_items: [['arrow-left', lambda x:root.parent.parent.switch_screen("Suppliers Home Screen", "right")]]
+            right_action_items: [['delete'], ['content-save']]
+        ScrollView:
+            MDBoxLayout:
+                orientation: "vertical"
+                adaptive_height: True
+                spacing: "20dp"
+                padding: "20dp", "20dp", "20dp", "20dp"
+                MDCard:
+                    orientation: "vertical"
+                    size_hint: .98, None
+                    height: user_details.height
+                    #focus_behavior: True
+                    #ripple_behavior: True
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                    radius: 12
+                    MDBoxLayout:
+                        id: user_details
+                        orientation: "vertical"
+                        spacing: "10dp"
+                        adaptive_height: True
+                        padding: "20dp", "20dp", "20dp", "20dp"
+                        MDLabel:
+                            text: "Supplier Details"
+                            theme_text_color: "Primary"
+                            font_style: "H5"
+                            bold: True
+                            adaptive_height: True
+                        #MDSeparator:
+                        MDTextField:
+                            id: supplier_name
+                            hint_text: "Supplier Name"
+                        MDTextField:
+                            id: tel_cell
+                            hint_text: "Tel/Cell Number"
+                        MDTextField:
+                            id: address
+                            hint_text: "Business Address"
+                        MDTextField:
+                            id: email
+                            hint_text: "Email Address"

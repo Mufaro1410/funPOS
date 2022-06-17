@@ -1,0 +1,664 @@
+#:kivy 2.0.0
+
+<RegisterWindow>:
+    ScreenManager:
+        id: register_screen_manager
+        OpenDrawerWindow:
+
+        RegisterMainWindow:
+        PaymentProcessingWindow:
+        PaymentSplitWindow:
+        FinalPaymentProcessingWindow:
+
+        CloseDrawerWindow:
+
+<OpenDrawerWindow>:
+    name: "Open Drawer Screen"
+    MDBoxLayout:
+        orientation: "vertical"
+        MDToolbar:
+            title: "Open Drawer"
+            use_overflow: True
+            elevation: 10
+            pos_hint: {"top": 1}
+            #left_action_items: [['menu']] #lambda x: nav_drawer.set_state("toggle")
+            right_action_items: [['dots-vertical']]
+        ScrollView:
+            MDBoxLayout:
+                orientation: "vertical"
+                adaptive_height: True
+                spacing: "20dp"
+                padding: "20dp", "20dp", "20dp", "20dp"
+                MDCard:
+                    orientation: "vertical"
+                    size_hint: .98, None
+                    height: floats.height
+                    #focus_behavior: True
+                    #ripple_behavior: True
+                    #pos_hint: {"center_x": .5, "center_y": .5}
+                    radius: 12
+                    MDBoxLayout:
+                        id: floats
+                        orientation: "vertical"
+                        spacing: "10dp"
+                        adaptive_height: True
+                        padding: "20dp", "20dp", "20dp", "20dp"
+                        MDLabel:
+                            text: "Enter Float Amounts"
+                            theme_text_color: "Primary"
+                            font_style: "H5"
+                            bold: True
+                            adaptive_height: True
+                            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+                        MDSeparator:
+                        MDTextField:
+                            id: float_zwl
+                            hint_text: "Float ZWL"
+                        MDTextField:
+                            id: float_usd
+                            hint_text: "Float USD"
+                MDCard:
+                    orientation: "vertical"
+                    size_hint: .98, None
+                    height: open_drawer_buttons.height
+                    #focus_behavior: True
+                    #ripple_behavior: True
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                    radius: 12
+                    elevation: 0
+                    MDBoxLayout:
+                        id: open_drawer_buttons
+                        orientation: "horizontal"
+                        spacing: "10dp"
+                        adaptive_height: True
+                        padding: "20dp", "20dp", "20dp", "20dp"
+                        pos_hint: {"center_x": .5, "center_y": .5}
+                        MDRaisedButton:
+                            id: start_drawer_button
+                            text: 'Start Drawer'
+                            font_size: 20
+                            #pos_hint: {"center_x": 0.5, "center_y": 0.5}
+                            #size_hint: None, None
+                            #size: 500, 50
+                            disabled: False
+                            on_release: root.parent.parent.switch_screen("Register Main Screen", "left")
+                        Widget:
+                        MDRaisedButton:
+                            id: confirm_start_drawer_button
+                            text: 'Confirm Start Drawer'
+                            font_size: 20
+                            #pos_hint: {"center_x": 0.5, "center_y": 0.5}
+                            halign: 'center'
+                            #size_hint: None, None
+                            #size: 500, 50
+                            disabled: True
+                            #on_release: root.parent.parent.switch_screen("Register Main Screen", "left")
+                        Widget:
+                        MDRaisedButton:
+                            id: resume_drawer_button
+                            text: 'Resume Drawer'
+                            font_size: 20
+                            #pos_hint: {"center_x": 0.5, "center_y": 0.5}
+                            halign: 'right'
+                            #size_hint: None, None
+                            #size: 500, 50
+                            disabled: False
+                            #on_release: root.parent.parent.switch_screen("Register Main Screen", "left")
+                MDCard:
+                    orientation: "vertical"
+                    size_hint: .98, None
+                    height: display_new_drawer.height
+                    #focus_behavior: True
+                    #ripple_behavior: True
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                    radius: 12
+                    MDBoxLayout:
+                        id: display_new_drawer
+                        orientation: "vertical"
+                        spacing: "10dp"
+                        adaptive_height: True
+                        padding: "20dp", "20dp", "20dp", "20dp"
+                        MDLabel:
+                            text: "Display New Drawer"
+                            theme_text_color: "Primary"
+                            font_style: "H5"
+                            bold: True
+                            adaptive_height: True
+                            #pos_hint: {"center_x": 0.5, "center_y": 0.5}
+                        MDSeparator:
+                        MDList:
+                            id: display_new_drawer_items
+
+<RegisterMainWindow>:
+    name: "Register Main Screen"
+    MDScreen:
+        MDBanner:
+            id: register_banner
+            text: ''
+            right_action: ["Ok", lambda x: None]
+            # The widget that is under the banner.
+            # It will be shifted down to the height of the banner.
+            over_widget: register_container
+            vertical_pad: register_toolbar.height
+        MDBoxLayout:
+            orientation: 'vertical'
+            MDToolbar:
+                id: register_toolbar
+                title: 'funPOS'
+                pos_hint: {'top':1}
+                #left_action_items: [['menu']] #lambda x: root.open_drawer()
+                right_action_items: [['magnify'],['account-plus-outline'], ['dots-vertical']]
+            MDBoxLayout:
+                id: register_container
+                orientation: 'horizontal'
+                MDBoxLayout:
+                    orientation: 'vertical'
+                    size_hint: (0.6, 1)
+                    MDBoxLayout:
+                        #orientation: 'horizontal'
+                        size_hint: (1, 0.1)
+                        MDTextField:
+                            id: search
+                            hint_text: "search product"
+                            #active_line: False
+                            #multiline: False
+                            #halign: "center"
+                            #on_text: root.search_item(self.text, True)
+                            #mode: 'rectangle' 
+                    #MDSeparator:
+                    MDScreen:
+                        #md_bg_color: [127/255,61/255,220/255,1]
+                        size_hint: (1, 0.9)
+                        ScrollView:
+                            MDStackLayout:
+                                id: products_list
+                                orientation: 'lr-tb'
+                                adaptive_height: True 
+                                padding: [10,10,10,10]
+                                spacing:[5, 5]
+                MDBoxLayout:
+                    orientation: 'vertical'
+                    size_hint: (0.4, 1)
+                    MDLabel:
+                        text: 'Ticket'
+                        size_hint: (1, 0.1)
+                    MDSeparator:
+                    MDBoxLayout:
+                        orientation: 'vertical'
+                        size_hint: (1, 0.9)
+                        ScrollView:
+                            MDList:
+                                id: sale_list
+                    MDSeparator:
+                    MDBoxLayout:
+                        orientation: 'horizontal'
+                        size_hint: (1, 0.1)
+                        MDRaisedButton:
+                            text: 'CHARGE'
+                            size_hint: (None, None)
+                            height: self.parent.height
+                            width: self.parent.width * 2/5
+                            md_bg_color: 0,0,1,1
+                            adaptive_height: True
+                            on_release: root.parent.parent.switch_screen("Payment Processing Screen", "left")
+                        MDLabel:
+                            id: total
+                            size_hint: (0.6, 1)
+                            text: '$0.00'
+                            halign: 'right'
+                            font_style: "H4"
+                            md_bg_color: 0,1,0,1
+
+<PaymentProcessingWindow>:
+    name: "Payment Processing Screen"
+    MDBoxLayout:
+        orientation: "vertical"
+        MDToolbar:
+            title: "Open Drawer"
+            use_overflow: True
+            elevation: 10
+            pos_hint: {"top": 1}
+            left_action_items: [['arrow-left', lambda x:root.parent.parent.switch_screen("Register Main Screen", "right")]] #lambda x: nav_drawer.set_state("toggle")
+            right_action_items: [['call-split', lambda x:root.parent.parent.switch_screen("Payment Split Screen", "left")], ['dots-vertical']]
+        ScrollView:
+            MDBoxLayout:
+                orientation: "vertical"
+                adaptive_height: True
+                spacing: "20dp"
+                padding: "20dp", "20dp", "20dp", "20dp"
+                MDCard:
+                    orientation: "vertical"
+                    size_hint: .98, None
+                    height: transaction_processing.height
+                    #focus_behavior: True
+                    #ripple_behavior: True
+                    #pos_hint: {"center_x": .5, "center_y": .5}
+                    radius: 12
+                    MDBoxLayout:
+                        id: transaction_processing
+                        orientation: "vertical"
+                        spacing: "10dp"
+                        adaptive_height: True
+                        padding: "20dp", "20dp", "20dp", "20dp"
+                        MDLabel:
+                            text: "Amount Due"
+                            theme_text_color: "Primary"
+                            font_style: "H5"
+                            bold: True
+                            adaptive_height: True
+                            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+                            halign: 'center'
+                        MDSeparator:
+                        MDTextField:
+                            id: cash_received
+                            hint_text: "Cash Received"
+                MDCard:
+                    orientation: "vertical"
+                    size_hint: .98, None
+                    height: floats.height
+                    #focus_behavior: True
+                    #ripple_behavior: True
+                    #pos_hint: {"center_x": .5, "center_y": .5}
+                    radius: 12
+                    MDBoxLayout:
+                        id: floats
+                        orientation: "vertical"
+                        spacing: "10dp"
+                        adaptive_height: True
+                        padding: "20dp", "20dp", "20dp", "20dp"
+                        MDLabel:
+                            text: "Payment Methods"
+                            theme_text_color: "Primary"
+                            font_style: "H5"
+                            bold: True
+                            adaptive_height: True
+                            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+                        OneLineIconListItem:
+                            text: "ZWL"
+                            theme_text_color: "Primary"
+                            font_style: "H5"
+                            bold: True
+                            divider: "Inset"
+                            on_release:root.parent.parent.switch_screen("Final Payment Processing Screen", "left")
+                            IconLeftWidget:
+                                icon: "table"
+                        OneLineIconListItem:
+                            text: "USD"
+                            theme_text_color: "Primary"
+                            font_style: "H5"
+                            bold: True
+                            divider: "Inset"
+                            on_release:root.parent.parent.switch_screen("Final Payment Processing Screen", "left")
+                            IconLeftWidget:
+                                icon: "receipt"
+                        OneLineIconListItem:
+                            text: "Card"
+                            theme_text_color: "Primary"
+                            font_style: "H5"
+                            bold: True
+                            divider: "Inset"
+                            on_release:root.parent.parent.switch_screen("Final Payment Processing Screen", "left")
+                            IconLeftWidget:
+                                icon: "table"
+                        OneLineIconListItem:
+                            text: "Ecocash"
+                            theme_text_color: "Primary"
+                            font_style: "H5"
+                            bold: True
+                            divider: "Inset"
+                            on_release:root.parent.parent.switch_screen("Final Payment Processing Screen", "left")
+                            IconLeftWidget:
+                                icon: "table"
+
+<PaymentSplitWindow>:
+    name: "Payment Split Screen"
+    MDBoxLayout:
+        orientation: "vertical"
+        MDToolbar:
+            #title: "Open Drawer"
+            use_overflow: True
+            elevation: 10
+            pos_hint: {"top": 1}
+            left_action_items: [['arrow-left', lambda x:root.parent.parent.switch_screen("Payment Processing Screen", "right")]] #lambda x: nav_drawer.set_state("toggle")
+            right_action_items: [['dots-vertical']]
+        ScrollView:
+            MDBoxLayout:
+                orientation: "vertical"
+                adaptive_height: True
+                spacing: "20dp"
+                padding: "20dp", "20dp", "20dp", "20dp"
+                MDCard:
+                    orientation: "vertical"
+                    size_hint: .98, None
+                    height: zwl_spit.height
+                    #focus_behavior: True
+                    #ripple_behavior: True
+                    #pos_hint: {"center_x": .5, "center_y": .5}
+                    radius: 12
+                    MDBoxLayout:
+                        id: zwl_spit
+                        orientation: "vertical"
+                        spacing: "10dp"
+                        adaptive_height: True
+                        padding: "20dp", "20dp", "20dp", "20dp"
+                        MDLabel:
+                            text: "ZWL$"
+                            theme_text_color: "Primary"
+                            font_style: "H5"
+                            bold: True
+                            adaptive_height: True
+                            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+                        MDTextField:
+                            id: zwl_amount
+                            hint_text: "ZWL Amount"
+                        MDRaisedButton:
+                            text: 'CHARGE'
+                            #size_hint: (None, None)
+                            #height: self.parent.height
+                            #width: self.parent.width * 2/5
+                            #md_bg_color: 0,0,1,1
+                            #adaptive_height: True
+                            on_press: root.parent.parent.switch_screen("Final Payment Processing Screen", "left")
+                MDCard:
+                    orientation: "vertical"
+                    size_hint: .98, None
+                    height: usd_spit.height
+                    #focus_behavior: True
+                    #ripple_behavior: True
+                    #pos_hint: {"center_x": .5, "center_y": .5}
+                    radius: 12
+                    MDBoxLayout:
+                        id: usd_spit
+                        orientation: "vertical"
+                        spacing: "10dp"
+                        adaptive_height: True
+                        padding: "20dp", "20dp", "20dp", "20dp"
+                        MDLabel:
+                            text: "USD$"
+                            theme_text_color: "Primary"
+                            font_style: "H5"
+                            bold: True
+                            adaptive_height: True
+                            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+                        MDTextField:
+                            id: usd_amount
+                            hint_text: "USD Amount"
+                        MDRaisedButton:
+                            text: 'CHARGE'
+                            #size_hint: (None, None)
+                            #height: self.parent.height
+                            #width: self.parent.width * 2/5
+                            #md_bg_color: 0,0,1,1
+                            #adaptive_height: True
+                            on_press: root.parent.parent.switch_screen("Final Payment Processing Screen", "left")
+                MDCard:
+                    orientation: "vertical"
+                    size_hint: .98, None
+                    height: card_spit.height
+                    #focus_behavior: True
+                    #ripple_behavior: True
+                    #pos_hint: {"center_x": .5, "center_y": .5}
+                    radius: 12
+                    MDBoxLayout:
+                        id: card_spit
+                        orientation: "vertical"
+                        spacing: "10dp"
+                        adaptive_height: True
+                        padding: "20dp", "20dp", "20dp", "20dp"
+                        MDLabel:
+                            text: "CARD"
+                            theme_text_color: "Primary"
+                            font_style: "H5"
+                            bold: True
+                            adaptive_height: True
+                            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+                        MDTextField:
+                            id: card_amount
+                            hint_text: "Card Amount"
+                        MDRaisedButton:
+                            text: 'CHARGE'
+                            #size_hint: (None, None)
+                            #height: self.parent.height
+                            #width: self.parent.width * 2/5
+                            #md_bg_color: 0,0,1,1
+                            #adaptive_height: True
+                            on_press: root.parent.parent.switch_screen("Final Payment Processing Screen", "left")
+                MDCard:
+                    orientation: "vertical"
+                    size_hint: .98, None
+                    height: ecocash_spit.height
+                    #focus_behavior: True
+                    #ripple_behavior: True
+                    #pos_hint: {"center_x": .5, "center_y": .5}
+                    radius: 12
+                    MDBoxLayout:
+                        id: ecocash_spit
+                        orientation: "vertical"
+                        spacing: "10dp"
+                        adaptive_height: True
+                        padding: "20dp", "20dp", "20dp", "20dp"
+                        MDLabel:
+                            text: "Ecocash"
+                            theme_text_color: "Primary"
+                            font_style: "H5"
+                            bold: True
+                            adaptive_height: True
+                            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+                        MDTextField:
+                            id: ecocash_amount
+                            hint_text: "Ecocash Amount"
+                        MDRaisedButton:
+                            text: 'CHARGE'
+                            #size_hint: (None, None)
+                            #height: self.parent.height
+                            #width: self.parent.width * 2/5
+                            #md_bg_color: 0,0,1,1
+                            #adaptive_height: True
+                            on_press: root.parent.parent.switch_screen("Final Payment Processing Screen", "left")
+
+
+<FinalPaymentProcessingWindow>:
+    name: "Final Payment Processing Screen"
+    MDScreen:
+        orientation: "vertical"
+        MDToolbar:
+            title: "funPOS"
+            use_overflow: True
+            elevation: 10
+            pos_hint: {"top": 1}
+        MDBoxLayout:
+            orientation: "vertical"
+            adaptive_height: True
+            spacing: "20dp"
+            padding: "20dp", "20dp", "20dp", "20dp"
+            pos_hint: {"center_x": .5, "center_y": .5}
+            MDCard:
+                orientation: "vertical"
+                size_hint: .98, None
+                height: final_payment_processing.height
+                #focus_behavior: True
+                #ripple_behavior: True
+                #pos_hint: {"center_x": .5, "center_y": .5}
+                radius: 12
+                MDBoxLayout:
+                    id: final_payment_processing
+                    orientation: "vertical"
+                    spacing: "10dp"
+                    adaptive_height: True
+                    padding: "20dp", "20dp", "20dp", "20dp"
+                    MDLabel:
+                        text: "Amount:"
+                        theme_text_color: "Primary"
+                        font_style: "H3"
+                        bold: True
+                        adaptive_height: True
+                        pos_hint: {"center_x": 0.5, "center_y": 0.5}
+                    MDLabel:
+                        text: "Change:"
+                        theme_text_color: "Primary"
+                        font_style: "H3"
+                        bold: True
+                        adaptive_height: True
+                        pos_hint: {"center_x": 0.5, "center_y": 0.5}
+                    #Widget:
+                    #MDSeparator:
+                    #Widget:
+                    #MDTextField:
+                    #    id: drawer_id
+                    #    hint_text: "Drawer ID"
+                    #    readonly: True
+                    Widget:
+                    MDSeparator:
+                    Widget:
+                    MDRaisedButton:
+                        text: 'New Sale'
+                        #size_hint: (None, None)
+                        #height: self.parent.height
+                        #width: self.parent.width * 2/5
+                        md_bg_color: 0,0,1,1
+                        #adaptive_height: True
+                        on_press: root.parent.parent.switch_screen("Register Main Screen", "right")
+
+<CloseDrawerWindow>:
+    name: "Close Drawer Screen"
+    MDBoxLayout:
+        orientation: "vertical"
+        MDToolbar:
+            title: "Close Drawer"
+            use_overflow: True
+            elevation: 10
+            pos_hint: {"top": 1}
+            left_action_items: [['arrow-left', lambda x: root.parent.parent.switch_screen("Register Main Screen", "right")]]
+            right_action_items: [['content-save', 'vertical-dots']]
+        ScrollView:
+            MDBoxLayout:
+                orientation: "vertical"
+                adaptive_height: True
+                spacing: "20dp"
+                padding: "20dp", "20dp", "20dp", "20dp"
+                MDCard:
+                    orientation: "vertical"
+                    size_hint: .98, None
+                    height: drawer_details.height
+                    #focus_behavior: True
+                    #ripple_behavior: True
+                    #pos_hint: {"center_x": .5, "center_y": .5}
+                    radius: 12
+                    MDBoxLayout:
+                        id: drawer_details
+                        orientation: "vertical"
+                        spacing: "10dp"
+                        adaptive_height: True
+                        padding: "20dp", "20dp", "20dp", "20dp"
+                        MDLabel:
+                            text: "Drawer Details"
+                            theme_text_color: "Primary"
+                            font_style: "H5"
+                            bold: True
+                            adaptive_height: True
+                            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+                        #MDSeparator:
+                        MDTextField:
+                            id: drawer_id
+                            hint_text: "Drawer ID"
+                            readonly: True
+                        MDTextField:
+                            id: date
+                            hint_text: "Date"
+                            readonly: True
+                        MDTextField:
+                            id: operator
+                            hint_text: "Operator"
+                            readonly: True
+                        MDTextField:
+                            id: opening_time
+                            hint_text: "Opening Time"
+                            readonly: True
+                        MDTextField:
+                            id: float_zwl
+                            hint_text: "Float ZWL"
+                            readonly: True
+                        MDTextField:
+                            id: float_usd
+                            hint_text: "Float USD"
+                            readonly: True
+                        MDTextField:
+                            id: status
+                            hint_text: "Status"
+                            readonly: True
+                        MDTextField:
+                            id: closing_time
+                            hint_text: "Closing Time"
+                            readonly: True
+                MDCard:
+                    orientation: "vertical"
+                    size_hint: .98, None
+                    height: sales.height
+                    #focus_behavior: True
+                    #ripple_behavior: True
+                    #pos_hint: {"center_x": .5, "center_y": .5}
+                    radius: 12
+                    MDBoxLayout:
+                        id: sales
+                        orientation: "vertical"
+                        spacing: "10dp"
+                        adaptive_height: True
+                        padding: "20dp", "20dp", "20dp", "20dp"
+                        MDLabel:
+                            text: "Drawer Details"
+                            theme_text_color: "Primary"
+                            font_style: "H5"
+                            bold: True
+                            adaptive_height: True
+                            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+                        #MDSeparator:
+                        MDTextField:
+                            id: expected_zwl
+                            hint_text: "Expected ZWL"
+                            readonly: True
+                        MDTextField:
+                            id: actual_zwl
+                            hint_text: "Actual ZWL"
+                            #readonly: False
+                        MDTextField:
+                            id: expected_usd
+                            hint_text: "Expected USD"
+                            readonly: True
+                        MDTextField:
+                            id: actual_usd
+                            hint_text: "Actual USD"
+                            #readonly: False
+                        MDTextField:
+                            id: card_sales
+                            hint_text: "Card Sales"
+                            readonly: True
+                        MDTextField:
+                            id: ecocash_sales
+                            hint_text: "Ecocash Sales"
+                            readonly: True
+                MDCard:
+                    orientation: "vertical"
+                    size_hint: .98, None
+                    height: closing_drawer_notes.height
+                    #focus_behavior: True
+                    #ripple_behavior: True
+                    #pos_hint: {"center_x": .5, "center_y": .5}
+                    radius: 12
+                    MDBoxLayout:
+                        id: closing_drawer_notes
+                        orientation: "vertical"
+                        spacing: "10dp"
+                        adaptive_height: True
+                        padding: "20dp", "20dp", "20dp", "20dp"
+                        MDLabel:
+                            text: "Notes"
+                            theme_text_color: "Primary"
+                            font_style: "H5"
+                            bold: True
+                            adaptive_height: True
+                            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+                        #MDSeparator:
+                        MDTextField:
+                            id: notes
+                            #hint_text: "Notes"
+                            multiline: True

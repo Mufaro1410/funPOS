@@ -1,0 +1,242 @@
+#:kivy 2.0.0
+
+<DashboardWindow>:
+    MDBoxLayout:
+        orientation: "vertical"
+        MDToolbar:
+            title: "funPOS"
+            use_overflow: True
+            elevation: 10
+            pos_hint: {"top": 1}
+            #left_action_items: [['menu']] #lambda x: nav_drawer.set_state("toggle")
+            right_action_items: [['dots-vertical']]
+        ScrollView:
+            MDBoxLayout:
+                orientation: "vertical"
+                adaptive_height: True
+                spacing: "20dp"
+                padding: "20dp", "20dp", "20dp", "20dp"
+                MDCard:
+                    orientation: "vertical"
+                    size_hint: .98, None
+                    height: sales.height
+                    #focus_behavior: True
+                    #ripple_behavior: True
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                    radius: 12
+                    MDBoxLayout:
+                        id: sales
+                        orientation: "vertical"
+                        spacing: "10dp"
+                        adaptive_height: True
+                        padding: "20dp", "20dp", "20dp", "20dp"
+                        MDLabel:
+                            text: "Sales"
+                            theme_text_color: "Primary"
+                            font_style: "H5"
+                            bold: True
+                            adaptive_height: True
+                        MDSeparator:
+                        MDGridLayout:
+                            id: sales_methods
+                            cols: 4
+                            #orientation: "vertical"
+                            spacing: "10dp"
+                            adaptive_height: True
+                            padding: "20dp", "20dp", "20dp", "20dp"
+                            MDLabel:
+                                text: "ZWL:"
+                                theme_text_color: "Primary"
+                                font_style: "H5"
+                                bold: True
+                                adaptive_height: True
+                            MDLabel:
+                                text: "USD:"
+                                theme_text_color: "Primary"
+                                font_style: "H5"
+                                bold: True
+                                adaptive_height: True
+                            MDLabel:
+                                text: "CARD:"
+                                theme_text_color: "Primary"
+                                font_style: "H5"
+                                bold: True
+                                adaptive_height: True
+                            MDLabel:
+                                text: "Ecocash:"
+                                theme_text_color: "Primary"
+                                font_style: "H5"
+                                bold: True
+                                adaptive_height: True
+                        MDSeparator:
+                        MDGridLayout:
+                            id: sales_graphs
+                            cols: 2
+                            #orientation: "vertical"
+                            spacing: "10dp"
+                            adaptive_height: True
+                            padding: "20dp", "20dp", "20dp", "20dp"
+                            MDLabel:
+                                text: "Daily Sales Pie Chart"
+                                theme_text_color: "Primary"
+                                font_style: "H5"
+                                bold: True
+                                adaptive_height: True
+                            MDLabel:
+                                text: "Weekly Sales Hist Graph"
+                                theme_text_color: "Primary"
+                                font_style: "H5"
+                                bold: True
+                                adaptive_height: True
+                MDCard:
+                    orientation: "vertical"
+                    size_hint: .98, None
+                    height: inventory.height
+                    #focus_behavior: True
+                    #ripple_behavior: True
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                    radius: 12
+                    MDBoxLayout:
+                        id: inventory
+                        orientation: "vertical"
+                        spacing: "10dp"
+                        adaptive_height: True
+                        padding: "20dp", "20dp", "20dp", "20dp"
+                        MDLabel:
+                            text: "Inventory"
+                            theme_text_color: "Primary"
+                            font_style: "H5"
+                            bold: True
+                            adaptive_height: True
+                        MDSeparator:
+                        MDGridLayout:
+                            id: inventory_graphs
+                            cols: 2
+                            #orientation: "vertical"
+                            spacing: "10dp"
+                            adaptive_height: True
+                            padding: "20dp", "20dp", "20dp", "20dp"
+                            MDLabel:
+                                text: "Weeks 10 Best Products"
+                                theme_text_color: "Primary"
+                                font_style: "H5"
+                                bold: True
+                                adaptive_height: True
+                            MDLabel:
+                                text: "Months 10 Best Products"
+                                theme_text_color: "Primary"
+                                font_style: "H5"
+                                bold: True
+                                adaptive_height: True
+                MDCard:
+                    orientation: "vertical"
+                    size_hint: .98, None
+                    height: sales.height
+                    #focus_behavior: True
+                    #ripple_behavior: True
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                    radius: 12
+                    MDBoxLayout:
+                        id: sales
+                        orientation: "vertical"
+                        spacing: "10dp"
+                        adaptive_height: True
+                        padding: "20dp", "20dp", "20dp", "20dp"
+                        MDLabel:
+                            text: "Sales"
+                            theme_text_color: "Primary"
+                            font_style: "H5"
+                            bold: True
+                            adaptive_height: True
+                        MDSeparator:
+                        MDGridLayout:
+                            id: sales_methods
+                            cols: 4
+                            #orientation: "vertical"
+                            spacing: "10dp"
+                            adaptive_height: True
+                            padding: "20dp", "20dp", "20dp", "20dp"
+                            MDLabel:
+                                text: "ZWL:"
+                                theme_text_color: "Primary"
+                                font_style: "H5"
+                                bold: True
+                                adaptive_height: True
+                            MDLabel:
+                                text: "USD:"
+                                theme_text_color: "Primary"
+                                font_style: "H5"
+                                bold: True
+                                adaptive_height: True
+                            MDLabel:
+                                text: "CARD:"
+                                theme_text_color: "Primary"
+                                font_style: "H5"
+                                bold: True
+                                adaptive_height: True
+                            MDLabel:
+                                text: "Ecocash:"
+                                theme_text_color: "Primary"
+                                font_style: "H5"
+                                bold: True
+                                adaptive_height: True
+                        MDSeparator:
+                        MDGridLayout:
+                            id: sales_graphs
+                            cols: 2
+                            #orientation: "vertical"
+                            spacing: "10dp"
+                            adaptive_height: True
+                            padding: "20dp", "20dp", "20dp", "20dp"
+                            MDLabel:
+                                text: "Daily Sales Pie Chart"
+                                theme_text_color: "Primary"
+                                font_style: "H5"
+                                bold: True
+                                adaptive_height: True
+                            MDLabel:
+                                text: "Weekly Sales Hist Graph"
+                                theme_text_color: "Primary"
+                                font_style: "H5"
+                                bold: True
+                                adaptive_height: True
+                MDCard:
+                    orientation: "vertical"
+                    size_hint: .98, None
+                    height: inventory.height
+                    #focus_behavior: True
+                    #ripple_behavior: True
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                    radius: 12
+                    MDBoxLayout:
+                        id: inventory
+                        orientation: "vertical"
+                        spacing: "10dp"
+                        adaptive_height: True
+                        padding: "20dp", "20dp", "20dp", "20dp"
+                        MDLabel:
+                            text: "Inventory"
+                            theme_text_color: "Primary"
+                            font_style: "H5"
+                            bold: True
+                            adaptive_height: True
+                        MDSeparator:
+                        MDGridLayout:
+                            id: inventory_graphs
+                            cols: 2
+                            #orientation: "vertical"
+                            spacing: "10dp"
+                            adaptive_height: True
+                            padding: "20dp", "20dp", "20dp", "20dp"
+                            MDLabel:
+                                text: "Weeks 10 Best Products"
+                                theme_text_color: "Primary"
+                                font_style: "H5"
+                                bold: True
+                                adaptive_height: True
+                            MDLabel:
+                                text: "Months 10 Best Products"
+                                theme_text_color: "Primary"
+                                font_style: "H5"
+                                bold: True
+                                adaptive_height: True

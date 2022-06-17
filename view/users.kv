@@ -1,0 +1,235 @@
+#:kivy 2.0.0
+
+<UsersWindow>:
+    ScreenManager:
+        id: users_screen_manager
+        UsersHomeWindow:
+        AddUsersWindow:
+        EditUsersWindow:
+
+<UsersHomeWindow>:
+    name: "Users Home Screen"
+    MDBoxLayout:
+        orientation: "vertical"
+        MDToolbar:
+            title: "Users"
+            use_overflow: True
+            elevation: 10
+            pos_hint: {"top": 1}
+            #left_action_items: [['menu']] #lambda x: nav_drawer.set_state("toggle")
+            right_action_items: [['magnify']]
+        MDCard:
+            orientation: "vertical"
+            size_hint: 1, 1
+            #height: users.height
+            #focus_behavior: True
+            #ripple_behavior: True
+            pos_hint: {"center_x": .5, "center_y": .5}
+            padding: "20dp", "20dp", "20dp", "20dp"
+            elevation: 0
+            radius: 0
+            ScrollView:
+                MDList:
+                    id: users_list
+        MDFloatingActionButton:
+            icon: "plus"
+            anchor: "right"
+            on_release: root.parent.parent.switch_screen("Add Users Screen", "left")
+            pos_hint: {"center_x": .95, "center_y": .5}
+            #md_bg_color: app.theme_cls.primary_color
+
+#<Check@MDCheckbox>:
+#    group: 'gender'
+#    size_hint: None, None
+#    size: dp(48), dp(48)
+
+<AddUsersWindow>:
+    name: "Add Users Screen"
+    MDBoxLayout:
+        orientation: "vertical"
+        MDToolbar:
+            title: "Create User"
+            use_overflow: True
+            elevation: 10
+            pos_hint: {"top": 1}
+            left_action_items: [['arrow-left', lambda x:root.parent.parent.switch_screen("Users Home Screen", "right")]] #lambda x: nav_drawer.set_state("toggle")
+            right_action_items: [['content-save']]
+        ScrollView:
+            MDBoxLayout:
+                orientation: "vertical"
+                adaptive_height: True
+                spacing: "20dp"
+                padding: "20dp", "20dp", "20dp", "20dp"
+                MDCard:
+                    orientation: "vertical"
+                    size_hint: .98, None
+                    height: user_details.height
+                    #focus_behavior: True
+                    #ripple_behavior: True
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                    radius: 12
+                    MDBoxLayout:
+                        id: user_details
+                        orientation: "vertical"
+                        spacing: "10dp"
+                        adaptive_height: True
+                        padding: "20dp", "20dp", "20dp", "20dp"
+                        MDLabel:
+                            text: "User Details"
+                            theme_text_color: "Primary"
+                            font_style: "H5"
+                            bold: True
+                            adaptive_height: True
+                        #MDSeparator:
+                        MDTextField:
+                            id: firstname
+                            hint_text: "First Name"
+                        MDTextField:
+                            id: lastname
+                            hint_text: "Last Name"
+                        MDTextField:
+                            id: date_of_birth
+                            hint_text: "Date of Birth"
+                            helper_text: "Format(YYYY-MM-DD) e.g. 2021-01-15"
+                            helper_text_mode: "persistent"
+                        #MDCheckbox:
+                        #    group: 'gender'
+                        #    size_hint: None, None
+                        #    size: dp(48), dp(48)
+                        #    Check:
+                        #        active: True
+                        #        pos_hint: {'center_x': .4, 'center_y': .5}
+                        #        name: "Male"
+                        #    Check:
+                        #        pos_hint: {'center_x': .6, 'center_y': .5}
+                        #        text: "Female"
+                        MDTextField:
+                            id: gender
+                            hint_text: "Gender"
+                            helper_text: "Choose (Male or Female)"
+                            helper_text_mode: "persistent"
+                        MDTextField:
+                            id: email
+                            hint_text: "Email"
+                        MDTextField:
+                            id: cell
+                            hint_text: "Cell"
+                        MDTextField:
+                            id: address
+                            hint_text: "Address"
+                MDCard:
+                    orientation: "vertical"
+                    size_hint: .98, None
+                    height: user_credentials.height
+                    #focus_behavior: True
+                    #ripple_behavior: True
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                    radius: 12
+                    MDBoxLayout:
+                        id: user_credentials
+                        orientation: "vertical"
+                        spacing: "10dp"
+                        adaptive_height: True
+                        padding: "20dp", "20dp", "20dp", "20dp"
+                        MDLabel:
+                            text: "User Credentials"
+                            theme_text_color: "Primary"
+                            font_style: "H5"
+                            bold: True
+                            adaptive_height: True
+                        #MDSeparator:
+                        MDTextField:
+                            id: username
+                            hint_text: "Username"
+                        MDTextField:
+                            id: password
+                            hint_text: "Password"
+                            password: True
+                        MDTextField:
+                            id: designation
+                            hint_text: "Designation"
+                            helper_text: "Choose (Administrator or Operator)"
+                            helper_text_mode: "persistent"
+
+<EditUsersWindow>:
+    name: "Edit Users Screen"
+    MDBoxLayout:
+        orientation: "vertical"
+        MDToolbar:
+            title: "Edit User"
+            use_overflow: True
+            elevation: 10
+            pos_hint: {"top": 1}
+            left_action_items: [['arrow-left', lambda x:root.parent.parent.switch_screen("Users Home Screen", "right")]] #lambda x: nav_drawer.set_state("toggle")
+            right_action_items: [['delete'], ['content-save']]
+        ScrollView:
+            MDBoxLayout:
+                orientation: "vertical"
+                adaptive_height: True
+                spacing: "20dp"
+                padding: "20dp", "20dp", "20dp", "20dp"
+                MDCard:
+                    orientation: "vertical"
+                    size_hint: .98, None
+                    height: user_details.height
+                    #focus_behavior: True
+                    #ripple_behavior: True
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                    radius: 12
+                    MDBoxLayout:
+                        id: user_details
+                        orientation: "vertical"
+                        spacing: "10dp"
+                        adaptive_height: True
+                        padding: "20dp", "20dp", "20dp", "20dp"
+                        MDTextField:
+                            id: firstname
+                            hint_text: "First Name"
+                        MDTextField:
+                            id: lastname
+                            hint_text: "Last Name"
+                        MDTextField:
+                            id: date_of_birth
+                            hint_text: "Date of Birth"
+                            helper_text: "Format(YYYY-MM-DD) e.g. 2021-01-15"
+                            helper_text_mode: "persistent"
+                        MDTextField:
+                            id: gender
+                            hint_text: "Gender"
+                            helper_text: "Choose (Male or Female)"
+                            helper_text_mode: "persistent"
+                        MDTextField:
+                            id: email
+                            hint_text: "Email"
+                        MDTextField:
+                            id: cell
+                            hint_text: "Cell"
+                        MDTextField:
+                            id: address
+                            hint_text: "Address"
+                MDCard:
+                    orientation: "vertical"
+                    size_hint: .98, None
+                    height: user_credentials.height
+                    #focus_behavior: True
+                    #ripple_behavior: True
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                    radius: 12
+                    MDBoxLayout:
+                        id: user_credentials
+                        orientation: "vertical"
+                        spacing: "10dp"
+                        adaptive_height: True
+                        padding: "20dp", "20dp", "20dp", "20dp"
+                        MDTextField:
+                            id: username
+                            hint_text: "Username"
+                        MDTextField:
+                            id: password
+                            hint_text: "Password"
+                            password: True
+                        MDTextField:
+                            id: designation
+                            hint_text: "Designation"
+                            helper_text: "Choose (Administrator or Operator)"
+                            helper_text_mode: "persistent"
