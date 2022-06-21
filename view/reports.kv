@@ -341,12 +341,12 @@
             ScrollView:
                 MDList:
                     id: drawer_reports_list
-        MDFloatingActionButton:
-            icon: "plus"
-            anchor: "right"
-            on_release: root.parent.parent.switch_screen("Edit Drawer Reports Screen", "left")
-            pos_hint: {"center_x": .95, "center_y": .5}
-            #md_bg_color: app.theme_cls.primary_color
+        #MDFloatingActionButton:
+        #    icon: "plus"
+        #    anchor: "right"
+        #    on_release: root.parent.parent.switch_screen("Edit Drawer Reports Screen", "left")
+        #    pos_hint: {"center_x": .95, "center_y": .5}
+        #    #md_bg_color: app.theme_cls.primary_color
 
 <EditDrawerReportsWindow>:
     name: 'Edit Drawer Reports Screen'
@@ -358,7 +358,7 @@
             elevation: 10
             pos_hint: {"top": 1}
             left_action_items: [['arrow-left', lambda x:root.parent.parent.switch_screen("Drawer Reports Screen", "right")]]
-            right_action_items: [['content-save']]
+            right_action_items: [['delete', lambda x: root.delete_drawer_dialog()], ['content-save', lambda x: root.update_drawer()]]
         ScrollView:
             MDBoxLayout:
                 orientation: "vertical"
@@ -385,15 +385,15 @@
                             font_style: "H5"
                             bold: True
                             adaptive_height: True
-                        #MDSeparator:
+                        MDSeparator:
                         MDTextField:
-                            id: drawer_id
+                            id: id
                             hint_text: "Drawer ID"
                         MDTextField:
                             id: date
                             hint_text: "Date"
                         MDTextField:
-                            id: date
+                            id: operator
                             hint_text: "Operator"
                         MDTextField:
                             id: opening_time

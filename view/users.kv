@@ -34,9 +34,9 @@
         MDFloatingActionButton:
             icon: "plus"
             anchor: "right"
-            on_release: root.parent.parent.switch_screen("Add Users Screen", "left")
             pos_hint: {"center_x": .95, "center_y": .5}
             #md_bg_color: app.theme_cls.primary_color
+            on_release: root.parent.parent.switch_screen("Add Users Screen", "left")
 
 #<Check@MDCheckbox>:
 #    group: 'gender'
@@ -80,29 +80,142 @@
                             font_style: "H5"
                             bold: True
                             adaptive_height: True
-                        #MDSeparator:
+                        MDSeparator:
                         MDTextField:
-                            id: firstname
+                            id: first_name
                             hint_text: "First Name"
                         MDTextField:
-                            id: lastname
+                            id: last_name
                             hint_text: "Last Name"
                         MDTextField:
                             id: date_of_birth
                             hint_text: "Date of Birth"
                             helper_text: "Format(YYYY-MM-DD) e.g. 2021-01-15"
                             helper_text_mode: "persistent"
-                        #MDCheckbox:
-                        #    group: 'gender'
-                        #    size_hint: None, None
-                        #    size: dp(48), dp(48)
-                        #    Check:
-                        #        active: True
-                        #        pos_hint: {'center_x': .4, 'center_y': .5}
-                        #        name: "Male"
-                        #    Check:
-                        #        pos_hint: {'center_x': .6, 'center_y': .5}
-                        #        text: "Female"
+                        MDTextField:
+                            id: gender
+                            hint_text: "Gender"
+                            helper_text: "Choose (Male or Female)"
+                            helper_text_mode: "persistent"
+                        MDTextField:
+                            id: email
+                            hint_text: "Email"
+                        MDTextField:
+                            id: cell
+                            hint_text: "Cell"
+                        MDTextField:
+                            id: address
+                            hint_text: "Address"
+                        MDSeparator:
+                        MDRaisedButton:
+                            id: create_user_button
+                            text: 'Create User'
+                            font_size: 20
+                            halign: 'center'
+                            #pos_hint: {"center_x": 0.5, "center_y": 0.5}
+                            #size_hint_x: self.size[0]
+                            #size: 500, 50
+                            on_release: root.create_user()
+                MDCard:
+                    orientation: "vertical"
+                    size_hint: .98, None
+                    height: user_credentials.height
+                    #focus_behavior: True
+                    #ripple_behavior: True
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                    radius: 12
+                    MDBoxLayout:
+                        id: user_credentials
+                        orientation: "vertical"
+                        spacing: "10dp"
+                        adaptive_height: True
+                        padding: "20dp", "20dp", "20dp", "20dp"
+                        MDLabel:
+                            text: "User Credentials"
+                            theme_text_color: "Primary"
+                            font_style: "H5"
+                            bold: True
+                            adaptive_height: True
+                        MDSeparator:
+                        MDTextField:
+                            id: username
+                            hint_text: "Username"
+                        MDTextField:
+                            id: password
+                            hint_text: "Password"
+                            password: True
+                        MDTextField:
+                            id: designation
+                            hint_text: "Designation"
+                            helper_text: "Choose (Administrator or Operator)"
+                            helper_text_mode: "persistent"
+                        MDTextField:
+                            id: user_id
+                            hint_text: "User ID"
+                        MDSeparator:
+                        MDRaisedButton:
+                            id: create_credential_button
+                            text: 'Create User Credential'
+                            font_size: 20
+                            halign: 'center'
+                            #pos_hint: {"center_x": 0.5, "center_y": 0.5}
+                            #size_hint: None, None
+                            #size: 500, 50
+                            on_release: root.create_user_credential()
+
+<EditUsersWindow>:
+    name: "Edit Users Screen"
+    MDBoxLayout:
+        orientation: "vertical"
+        MDToolbar:
+            title: "Edit User"
+            use_overflow: True
+            elevation: 10
+            pos_hint: {"top": 1}
+            left_action_items: [['arrow-left', lambda x:root.parent.parent.switch_screen("Users Home Screen", "right")]] #lambda x: nav_drawer.set_state("toggle")
+            right_action_items: [['delete', lambda x: root.delete_user_dialog()], ['content-save', lambda x: root.update_user()]]
+        ScrollView:
+            MDBoxLayout:
+                orientation: "vertical"
+                adaptive_height: True
+                spacing: "20dp"
+                padding: "20dp", "20dp", "20dp", "20dp"
+                MDCard:
+                    orientation: "vertical"
+                    size_hint: .98, None
+                    height: user_details.height
+                    #focus_behavior: True
+                    #ripple_behavior: True
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                    radius: 12
+                    MDBoxLayout:
+                        id: user_details
+                        orientation: "vertical"
+                        spacing: "10dp"
+                        adaptive_height: True
+                        padding: "20dp", "20dp", "20dp", "20dp"
+                        MDLabel:
+                            text: "User Details"
+                            theme_text_color: "Primary"
+                            font_style: "H5"
+                            bold: True
+                            adaptive_height: True
+                        MDSeparator:
+                        MDTextField:
+                            id: u_id
+                            hint_text: "ID"
+                            readonly: True
+                        MDTextField:
+                            id: first_name
+                            hint_text: "First Name"
+                        MDTextField:
+                            id: last_name
+                            hint_text: "Last Name"
+                        MDTextField:
+                            id: date_of_birth
+                            hint_text: "Date of Birth"
+                            helper_text: "Format(YYYY-MM-DD) e.g. 2021-01-15"
+                            helper_text_mode: "persistent"
                         MDTextField:
                             id: gender
                             hint_text: "Gender"
@@ -137,7 +250,11 @@
                             font_style: "H5"
                             bold: True
                             adaptive_height: True
-                        #MDSeparator:
+                        MDSeparator:
+                        MDTextField:
+                            id: c_id
+                            hint_text: "ID"
+                            readonly: True
                         MDTextField:
                             id: username
                             hint_text: "Username"
@@ -145,91 +262,55 @@
                             id: password
                             hint_text: "Password"
                             password: True
+                            readonly: True
                         MDTextField:
                             id: designation
                             hint_text: "Designation"
                             helper_text: "Choose (Administrator or Operator)"
                             helper_text_mode: "persistent"
-
-<EditUsersWindow>:
-    name: "Edit Users Screen"
-    MDBoxLayout:
-        orientation: "vertical"
-        MDToolbar:
-            title: "Edit User"
-            use_overflow: True
-            elevation: 10
-            pos_hint: {"top": 1}
-            left_action_items: [['arrow-left', lambda x:root.parent.parent.switch_screen("Users Home Screen", "right")]] #lambda x: nav_drawer.set_state("toggle")
-            right_action_items: [['delete'], ['content-save']]
-        ScrollView:
-            MDBoxLayout:
-                orientation: "vertical"
-                adaptive_height: True
-                spacing: "20dp"
-                padding: "20dp", "20dp", "20dp", "20dp"
+                        MDTextField:
+                            id: user_id
+                            hint_text: "User ID"
+                            readonly: True
                 MDCard:
                     orientation: "vertical"
                     size_hint: .98, None
-                    height: user_details.height
+                    height: reset_password.height
                     #focus_behavior: True
                     #ripple_behavior: True
                     pos_hint: {"center_x": .5, "center_y": .5}
                     radius: 12
                     MDBoxLayout:
-                        id: user_details
+                        id: reset_password
                         orientation: "vertical"
                         spacing: "10dp"
                         adaptive_height: True
                         padding: "20dp", "20dp", "20dp", "20dp"
+                        MDLabel:
+                            text: "Reset Password"
+                            theme_text_color: "Primary"
+                            font_style: "H5"
+                            bold: True
+                            adaptive_height: True
+                        MDSeparator:
                         MDTextField:
-                            id: firstname
-                            hint_text: "First Name"
+                            id: r_id
+                            hint_text: "ID"
+                            readonly: True
                         MDTextField:
-                            id: lastname
-                            hint_text: "Last Name"
-                        MDTextField:
-                            id: date_of_birth
-                            hint_text: "Date of Birth"
-                            helper_text: "Format(YYYY-MM-DD) e.g. 2021-01-15"
-                            helper_text_mode: "persistent"
-                        MDTextField:
-                            id: gender
-                            hint_text: "Gender"
-                            helper_text: "Choose (Male or Female)"
-                            helper_text_mode: "persistent"
-                        MDTextField:
-                            id: email
-                            hint_text: "Email"
-                        MDTextField:
-                            id: cell
-                            hint_text: "Cell"
-                        MDTextField:
-                            id: address
-                            hint_text: "Address"
-                MDCard:
-                    orientation: "vertical"
-                    size_hint: .98, None
-                    height: user_credentials.height
-                    #focus_behavior: True
-                    #ripple_behavior: True
-                    pos_hint: {"center_x": .5, "center_y": .5}
-                    radius: 12
-                    MDBoxLayout:
-                        id: user_credentials
-                        orientation: "vertical"
-                        spacing: "10dp"
-                        adaptive_height: True
-                        padding: "20dp", "20dp", "20dp", "20dp"
-                        MDTextField:
-                            id: username
+                            id: r_username
                             hint_text: "Username"
+                            readonly: True
                         MDTextField:
-                            id: password
+                            id: r_password
                             hint_text: "Password"
                             password: True
-                        MDTextField:
-                            id: designation
-                            hint_text: "Designation"
-                            helper_text: "Choose (Administrator or Operator)"
-                            helper_text_mode: "persistent"
+                        MDRaisedButton:
+                            id: reset_password_button
+                            text: 'RESET'
+                            font_size: 20
+                            halign: 'center'
+                            #pos_hint: {"center_x": 0.5, "center_y": 0.5}
+                            #size_hint: None, None
+                            #size: 500, 50
+                            on_release: print('Password reset complete...')

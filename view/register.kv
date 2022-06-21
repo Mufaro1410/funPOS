@@ -12,6 +12,15 @@
 
         CloseDrawerWindow:
 
+<DrawerIdDialog>:    
+    orientation: "vertical"
+    spacing: "10dp"
+    adaptive_height: True
+    padding: "20dp", "20dp", "20dp", "20dp"
+    MDTextField:
+        id: drawer_id_dialog
+        hint_text: "Enter Drawer ID"
+
 <OpenDrawerWindow>:
     name: "Open Drawer Screen"
     MDBoxLayout:
@@ -35,7 +44,7 @@
                     height: floats.height
                     #focus_behavior: True
                     #ripple_behavior: True
-                    #pos_hint: {"center_x": .5, "center_y": .5}
+                    pos_hint: {"center_x": .5, "center_y": .5}
                     radius: 12
                     MDBoxLayout:
                         id: floats
@@ -53,9 +62,11 @@
                         MDSeparator:
                         MDTextField:
                             id: float_zwl
+                            text: '0.00'
                             hint_text: "Float ZWL"
                         MDTextField:
                             id: float_usd
+                            text: '0.00'
                             hint_text: "Float USD"
                 MDCard:
                     orientation: "vertical"
@@ -81,7 +92,8 @@
                             #size_hint: None, None
                             #size: 500, 50
                             disabled: False
-                            on_release: root.parent.parent.switch_screen("Register Main Screen", "left")
+                            on_release: root.start_register_drawer()
+                            #root.parent.parent.switch_screen("Register Main Screen", "left")
                         Widget:
                         MDRaisedButton:
                             id: confirm_start_drawer_button
@@ -92,7 +104,8 @@
                             #size_hint: None, None
                             #size: 500, 50
                             disabled: True
-                            #on_release: root.parent.parent.switch_screen("Register Main Screen", "left")
+                            on_release: root.confirm_start_register_drawer()
+                            #root.parent.parent.switch_screen("Register Main Screen", "left")
                         Widget:
                         MDRaisedButton:
                             id: resume_drawer_button
@@ -103,7 +116,7 @@
                             #size_hint: None, None
                             #size: 500, 50
                             disabled: False
-                            #on_release: root.parent.parent.switch_screen("Register Main Screen", "left")
+                            on_release: root.resume_register_dialog()
                 MDCard:
                     orientation: "vertical"
                     size_hint: .98, None
@@ -126,6 +139,7 @@
                             adaptive_height: True
                             #pos_hint: {"center_x": 0.5, "center_y": 0.5}
                         MDSeparator:
+                        #MDScrollview:
                         MDList:
                             id: display_new_drawer_items
 

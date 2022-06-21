@@ -94,10 +94,10 @@
                     id: products_list
         MDFloatingActionButton:
             icon: "plus"
-            anchor: "right"
-            on_release: root.parent.parent.switch_screen("Add Products Screen", "left")
+            #anchor: "right"
             pos_hint: {"center_x": .95, "center_y": .5}
             #md_bg_color: app.theme_cls.primary_color
+            on_release: root.parent.parent.switch_screen("Add Products Screen", "left")
 
 <AddProductsWindow>:
     name: 'Add Products Screen'
@@ -108,8 +108,8 @@
             use_overflow: True
             elevation: 10
             pos_hint: {"top": 1}
-            left_action_items: [['arrow-left', lambda x:root.parent.parent.switch_screen("Products Home Screen", "right")]]
-            right_action_items: [['content-save']]
+            left_action_items: [['arrow-left', lambda x:root.parent.parent.switch_screen("Products Home Screen", "right")]] #lambda x: nav_drawer.set_state("toggle")
+            right_action_items: [['content-save', lambda x: root.create_product()]]
         ScrollView:
             MDBoxLayout:
                 orientation: "vertical"
@@ -136,22 +136,26 @@
                             font_style: "H5"
                             bold: True
                             adaptive_height: True
-                        #MDSeparator:
+                        MDSeparator:
                         MDTextField:
                             id: product_name
                             hint_text: "Product Name"
                             #focus: True
                         MDTextField:
-                            id: product_quantity
+                            id: quantity
+                            text: '0'
                             hint_text: "Product Quantity (units)"
                         MDTextField:
-                            id: product_weight
+                            id: weight
+                            text: '0.0'
                             hint_text: "Product Weight (kgs)"
                         MDTextField:
-                            id: product_zwl_price
+                            id: price_zwl
+                            text: '0.0'
                             hint_text: "ZWL Unit Price"
                         MDTextField:
-                            id: product_usd_price
+                            id: price_usd
+                            text: '0.0'
                             hint_text: "USD Unit Price"
                         MDTextField:
                             id: measurement_category
@@ -168,8 +172,8 @@
             use_overflow: True
             elevation: 10
             pos_hint: {"top": 1}
-            left_action_items: [['arrow-left', lambda x:root.parent.parent.switch_screen("Inventory Management Screen", "right")]]
-            right_action_items: [['delete'], ['content-save']]
+            left_action_items: [['arrow-left', lambda x:root.parent.parent.switch_screen("Products Home Screen", "right")]] #lambda x: nav_drawer.set_state("toggle")
+            right_action_items: [['delete', lambda x: root.delete_product_dialog()],['content-save', lambda x: root.update_product()]]
         ScrollView:
             MDBoxLayout:
                 orientation: "vertical"
@@ -196,28 +200,38 @@
                             font_style: "H5"
                             bold: True
                             adaptive_height: True
-                        #MDSeparator:
+                        MDSeparator:
+                        MDTextField:
+                            id: id
+                            hint_text: "ID"
+                            readonly: True
                         MDTextField:
                             id: product_name
                             hint_text: "Product Name"
                             #focus: True
                         MDTextField:
-                            id: product_quantity
+                            id: quantity
+                            text: '0'
                             hint_text: "Product Quantity (units)"
                         MDTextField:
-                            id: product_weight
+                            id: weight
+                            text: '0.0'
                             hint_text: "Product Weight (kgs)"
                         MDTextField:
-                            id: product_zwl_price
+                            id: price_zwl
+                            text: '0.0'
                             hint_text: "ZWL Unit Price"
                         MDTextField:
-                            id: product_usd_price
+                            id: price_usd
+                            text: '0.0'
                             hint_text: "USD Unit Price"
                         MDTextField:
                             id: measurement_category
                             hint_text: "Measurement Category"
                             helper_text: 'Choose "Quantity or Weight"'
                             helper_text_mode: "persistent"
+
+
 
 <ReceivingHomeWindow>:
     name: 'Receiving Home Screen'
@@ -227,6 +241,8 @@
 
 <EditReceivingWindow>:
     name: 'Edit Receiving Screen'
+
+
 
 <SuppliersHomeWindow>:
     name: 'Suppliers Home Screen'
@@ -254,10 +270,10 @@
                     id: suppliers_list
         MDFloatingActionButton:
             icon: "plus"
-            anchor: "right"
-            on_release: root.parent.parent.switch_screen("Add Suppliers Screen", "left")
+            #anchor: "right"
             pos_hint: {"center_x": .95, "center_y": .5}
             #md_bg_color: app.theme_cls.primary_color
+            on_release: root.parent.parent.switch_screen("Add Suppliers Screen", "left")
 
 <AddSuppliersWindow>:
     name: 'Add Suppliers Screen'
@@ -269,7 +285,7 @@
             elevation: 10
             pos_hint: {"top": 1}
             left_action_items: [['arrow-left', lambda x:root.parent.parent.switch_screen("Suppliers Home Screen", "right")]]
-            right_action_items: [['content-save']]
+            right_action_items: [['content-save', lambda x: root.update_supplier]]
         ScrollView:
             MDBoxLayout:
                 orientation: "vertical"
@@ -296,19 +312,28 @@
                             font_style: "H5"
                             bold: True
                             adaptive_height: True
-                        #MDSeparator:
+                        MDSeparator:
                         MDTextField:
                             id: supplier_name
                             hint_text: "Supplier Name"
                         MDTextField:
-                            id: tel_cell
-                            hint_text: "Tel/Cell Number"
+                            id: contact
+                            hint_text: "Contact Details"
                         MDTextField:
                             id: address
                             hint_text: "Business Address"
                         MDTextField:
                             id: email
                             hint_text: "Email Address"
+                        MDRaisedButton:
+                            id: create_supplier_button
+                            text: 'Create Supplier'
+                            font_size: 20
+                            halign: 'center'
+                            #pos_hint: {"center_x": 0.5, "center_y": 0.5}
+                            #size_hint_x: self.size[0]
+                            #size: 500, 50
+                            on_release: root.create_supplier()
 
 <EditSuppliersWindow>:
     name: 'Edit Suppliers Screen'
@@ -320,7 +345,7 @@
             elevation: 10
             pos_hint: {"top": 1}
             left_action_items: [['arrow-left', lambda x:root.parent.parent.switch_screen("Suppliers Home Screen", "right")]]
-            right_action_items: [['delete'], ['content-save']]
+            right_action_items: [['delete', lambda x: root.delete_supplier_dialog()], ['content-save', lambda x: root.update_supplier()]]
         ScrollView:
             MDBoxLayout:
                 orientation: "vertical"
@@ -347,13 +372,17 @@
                             font_style: "H5"
                             bold: True
                             adaptive_height: True
-                        #MDSeparator:
+                        MDSeparator:
+                        MDTextField:
+                            id: id
+                            hint_text: "ID"
+                            readonly: True
                         MDTextField:
                             id: supplier_name
                             hint_text: "Supplier Name"
                         MDTextField:
-                            id: tel_cell
-                            hint_text: "Tel/Cell Number"
+                            id: contact
+                            hint_text: "Contact Details"
                         MDTextField:
                             id: address
                             hint_text: "Business Address"
