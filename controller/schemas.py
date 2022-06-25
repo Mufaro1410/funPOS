@@ -110,3 +110,20 @@ class SalesRead(SalesBase):
 
     class Config:
         orm_mode = True
+
+class CustomersBase(BaseModel):
+    title: str
+    last_name: str
+    first_name: str
+    contact: str
+    email: str
+    address: str
+
+class CustomersCreate(CustomersBase):
+    pass
+
+class CustomersRead(CustomersBase):
+    id: int
+
+    class Config:
+        orm_mode = True

@@ -143,6 +143,42 @@
                         MDList:
                             id: display_new_drawer_items
 
+<AddCustomerDialog>:    
+    orientation: "vertical"
+    #spacing: "10dp"
+    pos_hint: {'center_x':0.5, 'center_y':0.5}
+    size_hint_y: None
+    height: (1.2 * add_customer_dialog.height)
+    padding: "20dp", "20dp", "20dp", "20dp"
+    ScrollView:
+        MDBoxLayout:
+            id: add_customer_dialog
+            orientation: "vertical"
+            spacing: "5dp"
+            #pos_hint: {'top':1}
+            #size_hint_y: None
+            adaptive_height: True
+            MDTextField:
+                id: title
+                hint_text: "Title"
+                helper_text: "Dr/Mr/Mrs"
+                helper_text_mode: "persistent"
+            MDTextField:
+                id: last_name
+                hint_text: "Last Name"
+            MDTextField:
+                id: first_name
+                hint_text: "First Name"
+            MDTextField:
+                id: contact
+                hint_text: "Contact"
+            MDTextField:
+                id: email
+                hint_text: "Email"
+            MDTextField:
+                id: address
+                hint_text: "Address"
+
 <RegisterMainWindow>:
     name: "Register Main Screen"
     MDScreen:
@@ -161,7 +197,7 @@
                 title: 'funPOS'
                 pos_hint: {'top':1}
                 #left_action_items: [['menu']] #lambda x: root.open_drawer()
-                right_action_items: [['magnify'],['account-plus-outline'], ['dots-vertical']]
+                right_action_items: [['magnify'],['account-plus-outline', lambda x: root.add_customer_dialog()], ['dots-vertical']]
             MDBoxLayout:
                 id: register_container
                 orientation: 'horizontal'

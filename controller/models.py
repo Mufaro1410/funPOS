@@ -101,3 +101,15 @@ class Sales(Base):
 
     user_credentials = relationship('UserCredentials', back_populates='sales')
     drawers = relationship('Drawers', back_populates='sales')
+
+class Customers(Base):
+    __tablename__ = 'customers'
+
+    id = Column(Integer, primary_key=True)
+    title = Column(String)
+    last_name = Column(String)
+    first_name = Column(String)
+    contact = Column(String, unique=True)
+    email = Column(String, unique=True)
+    address = Column(String)
+    #created_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))

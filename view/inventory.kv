@@ -89,9 +89,28 @@
             padding: "20dp", "20dp", "20dp", "20dp"
             radius: 12
             elevation: 0
-            ScrollView:
-                MDList:
-                    id: products_list
+            BoxLayout:
+                size_hint_y: None
+                height: self.minimum_height
+                MDIconButton:
+                    icon: 'magnify'
+                MDTextField:
+                    id: search_field
+                    hint_text: 'Search Product'
+                    on_text: root.set_search_products(self.text, True)
+            RecycleView:
+                id: products_list
+                key_viewclass: 'viewclass'
+                key_size: 'height'
+                #pos_hint:{'center_x': 0.5, 'center_y': 0.5}
+                RecycleBoxLayout:
+                    padding: dp(10)
+                    default_size: None, dp(48)
+                    default_size_hint: 1, None
+                    size_hint_y: None
+                    height: self.minimum_height
+                    orientation: 'vertical'
+                    callback: True
         MDFloatingActionButton:
             icon: "plus"
             #anchor: "right"
@@ -265,9 +284,28 @@
             padding: "20dp", "20dp", "20dp", "20dp"
             radius: 12
             elevation: 0
-            ScrollView:
-                MDList:
-                    id: suppliers_list
+            BoxLayout:
+                size_hint_y: None
+                height: self.minimum_height
+                MDIconButton:
+                    icon: 'magnify'
+                MDTextField:
+                    id: search_field
+                    hint_text: 'Search Supplier'
+                    on_text: root.set_search_suppliers(self.text, True)
+            RecycleView:
+                id: suppliers_list
+                key_viewclass: 'viewclass'
+                key_size: 'height'
+                #pos_hint:{'center_x': 0.5, 'center_y': 0.5}
+                RecycleBoxLayout:
+                    padding: dp(10)
+                    default_size: None, dp(48)
+                    default_size_hint: 1, None
+                    size_hint_y: None
+                    height: self.minimum_height
+                    orientation: 'vertical'
+                    callback: True
         MDFloatingActionButton:
             icon: "plus"
             #anchor: "right"

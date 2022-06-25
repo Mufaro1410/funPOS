@@ -4,6 +4,7 @@ from kivymd.uix.screen import MDScreen
 from kivymd.uix.button import MDFlatButton, MDRaisedButton
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.list import OneLineIconListItem
+from kivymd.uix.snackbar import Snackbar
 
 from kivy.properties import ObjectProperty
 from kivy.network.urlrequest import UrlRequest
@@ -28,8 +29,65 @@ class PaymentSplitWindow(MDScreen):
 class PaymentProcessingWindow(MDScreen):
     pass
 
-class RegisterMainWindow(MDScreen):
+class AddCustomerDialog(MDBoxLayout):
     pass
+
+class RegisterMainWindow(MDScreen):
+    customers_url = 'http://127.0.0.1:8000/customers/'
+
+    def add_customer_dialog(self):
+        self.dialog = MDDialog(
+            title = 'Add Customer',
+            type = 'custom',
+            content_cls = AddCustomerDialog(),
+            buttons=[
+                MDFlatButton(
+                    text = "CANCEL",
+                    on_release = self.close_dialog
+                ),
+                MDRaisedButton(
+                    text="NEXT", md_bg_color=[1, 0, 1, 1],
+                    on_release = self.create_customer
+                ),
+            ],
+        )
+        self.dialog.open()
+
+    def create_customer(self, *args):
+        c_title = self.dialog.content_cls.ids.title
+        l_name = self.dialog.content_cls.ids.last_name
+        f_name = self.dialog.content_cls.ids.first_name
+        c_contact = self.dialog.content_cls.ids.contact
+        mail = self.dialog.content_cls.ids.email
+        addrss = self.dialog.content_cls.ids.address
+
+        title = c_title.text
+        last_name = l_name.text
+        first_name = f_name.text
+        contact = c_contact.text
+        email = mail.text
+        address = addrss.text
+
+        c_title.text = ''
+        l_name.text = ''
+        f_name.text = ''
+        c_contact.text = ''
+        mail.text = ''
+        addrss.text = ''
+
+        new_customer = {"title": title, "last_name": last_name, "first_name": first_name, "contact": contact, "email": email, "address": address}
+        new_customer_json = json.dumps(new_customer)
+        UrlRequest(self.customers_url, req_body=new_customer_json, on_success=self.customer_created)
+
+    def customer_created(self, req, result):
+        title = result['title']
+        first_name = result['first_name']
+        last_name = result['last_name']
+        self.close_dialog()
+        Snackbar(text = f'{title} {last_name} {first_name} Created').open()
+
+    def close_dialog(self, *args):
+        self.dialog.dismiss()
 
 class DrawerIdDialog(MDBoxLayout):
     pass
@@ -110,9 +168,11 @@ class OpenDrawerWindow(MDScreen):
         self.dialog.open()
         
     def resume_register_drawer(self, *args):
-        id = self.dialog.content_cls.ids.drawer_id_dialog.text
+        _id = self.dialog.content_cls.ids.drawer_id_dialog
+        id = _id.text
         url = self.drawers_url + f'{id}'
         UrlRequest(url, on_success=self.verify_register)
+        _id.text = ''
 
     def verify_register(self, req, result):
         self.parent.parent.switch_screen('Register Main Screen', 'left')

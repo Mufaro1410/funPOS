@@ -3,9 +3,57 @@
 <UsersWindow>:
     ScreenManager:
         id: users_screen_manager
+        UsersManagementWindow:
+
         UsersHomeWindow:
         AddUsersWindow:
         EditUsersWindow:
+
+        CustomersHomeWindow:
+        AddCustomersWindow:
+        EditCustomersWindow:
+
+<UsersManagementWindow>:
+    name: 'Users Management Screen'
+    MDBoxLayout:
+        orientation: "vertical"
+        MDToolbar:
+            pos_hint: {"top": 1}
+            title: 'User Management'
+            #left_action_items: [['menu']] # lambda x: app.open_drawer()
+            right_action_items: [['dots-vertical']]
+        MDCard:
+            orientation: "vertical"
+            size_hint: 1, 1
+            #height: sales.height
+            #focus_behavior: True
+            #ripple_behavior: True
+            pos_hint: {"center_x": .5, "center_y": .5}
+            padding: "20dp", "20dp", "20dp", "20dp"
+            elevation: 0
+            radius: 12
+            ScrollView:
+                MDList:
+                    #orientation: "vertical"
+                    #pos_hint: {"top": 1}
+                    OneLineIconListItem:
+                        text: "Users"
+                        theme_text_color: "Primary"
+                        font_style: "H5"
+                        bold: True
+                        #divider: "Inset"
+                        on_release: root.parent.parent.switch_screen("Users Home Screen", "left")
+                        IconLeftWidget:
+                            icon: "table"
+                    OneLineIconListItem:
+                        text: "Customers"
+                        theme_text_color: "Primary"
+                        font_style: "H5"
+                        bold: True
+                        #divider: "Inset"
+                        on_release: root.parent.parent.switch_screen("Customers Home Screen", "left")
+                        IconLeftWidget:
+                            icon: "table"
 
 <UsersHomeWindow>:
     name: "Users Home Screen"
@@ -16,7 +64,7 @@
             use_overflow: True
             elevation: 10
             pos_hint: {"top": 1}
-            #left_action_items: [['menu']] #lambda x: nav_drawer.set_state("toggle")
+            left_action_items: [['arrow-left', lambda x:root.parent.parent.switch_screen("Users Management Screen", "right")]]
             right_action_items: [['magnify']]
         MDCard:
             orientation: "vertical"
@@ -25,12 +73,32 @@
             #focus_behavior: True
             #ripple_behavior: True
             pos_hint: {"center_x": .5, "center_y": .5}
-            padding: "20dp", "20dp", "20dp", "20dp"
+            #padding: "20dp", "20dp", "20dp", "20dp"
+            padding: dp(20)
             elevation: 0
             radius: 0
-            ScrollView:
-                MDList:
-                    id: users_list
+            BoxLayout:
+                size_hint_y: None
+                height: self.minimum_height
+                MDIconButton:
+                    icon: 'magnify'
+                MDTextField:
+                    id: search_field
+                    hint_text: 'Search User'
+                    on_text: root.set_search_users(self.text, True)
+            RecycleView:
+                id: users_list
+                key_viewclass: 'viewclass'
+                key_size: 'height'
+                #pos_hint:{'center_x': 0.5, 'center_y': 0.5}
+                RecycleBoxLayout:
+                    padding: dp(10)
+                    default_size: None, dp(48)
+                    default_size_hint: 1, None
+                    size_hint_y: None
+                    height: self.minimum_height
+                    orientation: 'vertical'
+                    callback: True
         MDFloatingActionButton:
             icon: "plus"
             anchor: "right"
@@ -38,10 +106,7 @@
             #md_bg_color: app.theme_cls.primary_color
             on_release: root.parent.parent.switch_screen("Add Users Screen", "left")
 
-#<Check@MDCheckbox>:
-#    group: 'gender'
-#    size_hint: None, None
-#    size: dp(48), dp(48)
+
 
 <AddUsersWindow>:
     name: "Add Users Screen"
@@ -54,6 +119,9 @@
             pos_hint: {"top": 1}
             left_action_items: [['arrow-left', lambda x:root.parent.parent.switch_screen("Users Home Screen", "right")]] #lambda x: nav_drawer.set_state("toggle")
             right_action_items: [['content-save']]
+        #MDTabs:
+        #    id: tabs
+        #    on_tab_switch: root.on_tab_switch(*args)
         ScrollView:
             MDBoxLayout:
                 orientation: "vertical"
@@ -302,8 +370,12 @@
                             hint_text: "Username"
                             readonly: True
                         MDTextField:
-                            id: r_password
-                            hint_text: "Password"
+                            id: new_password
+                            hint_text: "Enter New Password"
+                            password: True
+                        MDTextField:
+                            id: re_new_password
+                            hint_text: "Re-Enter New Password"
                             password: True
                         MDRaisedButton:
                             id: reset_password_button
@@ -314,3 +386,195 @@
                             #size_hint: None, None
                             #size: 500, 50
                             on_release: print('Password reset complete...')
+
+<CustomersHomeWindow>:
+    name: "Customers Home Screen"
+    MDBoxLayout:
+        orientation: "vertical"
+        MDToolbar:
+            title: "Customers"
+            use_overflow: True
+            elevation: 10
+            pos_hint: {"top": 1}
+            left_action_items: [['arrow-left', lambda x:root.parent.parent.switch_screen("Users Management Screen", "right")]]
+            right_action_items: [['magnify']]
+        MDCard:
+            orientation: "vertical"
+            size_hint: 1, 1
+            #height: users.height
+            #focus_behavior: True
+            #ripple_behavior: True
+            pos_hint: {"center_x": .5, "center_y": .5}
+            padding: "20dp", "20dp", "20dp", "20dp"
+            elevation: 0
+            radius: 0
+            BoxLayout:
+                size_hint_y: None
+                height: self.minimum_height
+                MDIconButton:
+                    icon: 'magnify'
+                MDTextField:
+                    id: search_field
+                    hint_text: 'Search Customer'
+                    on_text: root.set_search_customers(self.text, True)
+            RecycleView:
+                id: customers_list
+                key_viewclass: 'viewclass'
+                key_size: 'height'
+                #pos_hint:{'center_x': 0.5, 'center_y': 0.5}
+                RecycleBoxLayout:
+                    padding: dp(10)
+                    default_size: None, dp(48)
+                    default_size_hint: 1, None
+                    size_hint_y: None
+                    height: self.minimum_height
+                    orientation: 'vertical'
+                    callback: True
+        MDFloatingActionButton:
+            icon: "plus"
+            anchor: "right"
+            pos_hint: {"center_x": .95, "center_y": .5}
+            #md_bg_color: app.theme_cls.primary_color
+            on_release: root.parent.parent.switch_screen("Add Customers Screen", "left")
+
+<AddCustomersWindow>:
+    name: "Add Customers Screen"
+    MDBoxLayout:
+        orientation: "vertical"
+        MDToolbar:
+            title: "Create Customer"
+            use_overflow: True
+            elevation: 10
+            pos_hint: {"top": 1}
+            left_action_items: [['arrow-left', lambda x:root.parent.parent.switch_screen("Customers Home Screen", "right")]]
+            right_action_items: [['content-save', lambda x: root.create_customer()]]
+        ScrollView:
+            MDBoxLayout:
+                orientation: "vertical"
+                adaptive_height: True
+                spacing: "20dp"
+                padding: "20dp", "20dp", "20dp", "20dp"
+                MDCard:
+                    orientation: "vertical"
+                    size_hint: .98, None
+                    height: customer_details.height
+                    #focus_behavior: True
+                    #ripple_behavior: True
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                    radius: 12
+                    MDBoxLayout:
+                        id: customer_details
+                        orientation: "vertical"
+                        spacing: "10dp"
+                        adaptive_height: True
+                        padding: "20dp", "20dp", "20dp", "20dp"
+                        MDLabel:
+                            text: "Customer Details"
+                            theme_text_color: "Primary"
+                            font_style: "H5"
+                            bold: True
+                            adaptive_height: True
+                        MDSeparator:
+                        MDTextField:
+                            id: title
+                            hint_text: "Title"
+                            helper_text: "Dr/Mr/Mrs"
+                            helper_text_mode: "persistent"
+                        MDTextField:
+                            id: first_name
+                            hint_text: "First Name"
+                        MDTextField:
+                            id: last_name
+                            hint_text: "Last Name"
+                        MDTextField:
+                            id: contact
+                            hint_text: "Contact"
+                        MDTextField:
+                            id: email
+                            hint_text: "Email"
+                        MDTextField:
+                            id: address
+                            hint_text: "Address"
+                        #MDSeparator:
+                        #MDRaisedButton:
+                        #    id: create_customer_button
+                        #    text: 'Create Customer'
+                        #    font_size: 20
+                        #    halign: 'center'
+                        #    #pos_hint: {"center_x": 0.5, "center_y": 0.5}
+                        #    #size_hint_x: self.size[0]
+                        #    #size: 500, 50
+                        #    on_release: root.create_customer()
+
+<EditCustomersWindow>:
+    name: "Edit Customers Screen"
+    MDBoxLayout:
+        orientation: "vertical"
+        MDToolbar:
+            title: "Edit Customer"
+            use_overflow: True
+            elevation: 10
+            pos_hint: {"top": 1}
+            left_action_items: [['arrow-left', lambda x:root.parent.parent.switch_screen("Customers Home Screen", "right")]]
+            right_action_items: [['delete', lambda x: root.delete_customer_dialog()], ['content-save', lambda x: root.update_customer()]]
+        ScrollView:
+            MDBoxLayout:
+                orientation: "vertical"
+                adaptive_height: True
+                spacing: "20dp"
+                padding: "20dp", "20dp", "20dp", "20dp"
+                MDCard:
+                    orientation: "vertical"
+                    size_hint: .98, None
+                    height: customer_details.height
+                    #focus_behavior: True
+                    #ripple_behavior: True
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                    radius: 12
+                    MDBoxLayout:
+                        id: customer_details
+                        orientation: "vertical"
+                        spacing: "10dp"
+                        adaptive_height: True
+                        padding: "20dp", "20dp", "20dp", "20dp"
+                        MDLabel:
+                            text: "Customer Details"
+                            theme_text_color: "Primary"
+                            font_style: "H5"
+                            bold: True
+                            adaptive_height: True
+                        MDSeparator:
+                        MDTextField:
+                            id: id
+                            hint_text: "ID"
+                            readonly: True
+                        MDTextField:
+                            id: title
+                            hint_text: "Title"
+                            helper_text: "Dr/Mr/Mrs"
+                            helper_text_mode: "persistent"
+                        MDTextField:
+                            id: first_name
+                            hint_text: "First Name"
+                        MDTextField:
+                            id: last_name
+                            hint_text: "Last Name"
+                        MDTextField:
+                            id: contact
+                            hint_text: "Contact"
+                        MDTextField:
+                            id: email
+                            hint_text: "Email"
+                        MDTextField:
+                            id: address
+                            hint_text: "Address"
+                        #MDSeparator:
+                        #MDRaisedButton:
+                        #    id: create_customer_button
+                        #    text: 'Create Customer'
+                        #    font_size: 20
+                        #    halign: 'center'
+                        #    #pos_hint: {"center_x": 0.5, "center_y": 0.5}
+                        #    #size_hint_x: self.size[0]
+                        #    #size: 500, 50
+                        #    on_release: root.create_customer()

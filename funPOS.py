@@ -2,15 +2,15 @@ from kivymd.app import MDApp
 from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.uix.screen import MDScreen
 
-#from kivy.lang import Builder
+from kivy.lang import Builder
 
 from view import login, dashboard, register, inventory, users, reports
 
-#import os
+import os
 
-#dirname = os.path.dirname(__file__)
+dirname = os.path.dirname(__file__)
 
-#Builder.load_file(os.path.join(dirname, "view/dashboard.kv"))
+Builder.load_file(os.path.join(dirname, "view/funpos.kv"))
 
 class MainWindow(MDScreen):
     def __init__(self, **kwargs):

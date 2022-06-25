@@ -106,7 +106,55 @@ class AddSuppliersWindow(MDScreen):
         Snackbar(text = f'{supplier_name} Created').open()
 
 class SuppliersHomeWindow(MDScreen):
-    pass
+    suppliers_url = 'http://127.0.0.1:8000/suppliers/'
+
+    def __init__(self, **kw):
+        super().__init__(**kw)
+        self.data = []
+        UrlRequest(self.suppliers_url, on_success=self.get_suppliers)
+
+    def get_suppliers(self, request, result):
+        for i in result:
+            suppliers_dict = {}
+            suppliers_dict['id'] = str(i['id'])
+            suppliers_dict['supplier_name'] = i['supplier_name']
+            self.data.append(suppliers_dict)
+        self.set_search_suppliers()
+
+    def set_search_suppliers(self, text="", search=False):
+        '''Builds a list of users for the screen.'''
+
+        def add_supplier_item(name):
+            self.ids.suppliers_list.data.append(
+                {
+                    "viewclass": "OneLineListItem",
+                    "text": name,
+                    "on_release": lambda x=name: self.edit_supplier(x),
+                }
+            )
+        self.ids.suppliers_list.data = []
+        for item in self.data:
+            id = item['id']
+            supplier_name = item['supplier_name']
+            name = f'{id} - {supplier_name}'
+            if search:
+                if text in name:
+                    add_supplier_item(name)
+            else:
+                add_supplier_item(name)
+
+    def edit_supplier(self, name):
+        id = name[0]
+        suppliers_url = self.suppliers_url + f'{id}'
+        UrlRequest(suppliers_url, on_success=self.edit_supplier_screen)
+        
+    def edit_supplier_screen(self, request, result):
+        self.parent.get_screen("Edit Suppliers Screen").ids.id.text = str(result['id'])
+        self.parent.get_screen("Edit Suppliers Screen").ids.supplier_name.text = result['supplier_name']
+        self.parent.get_screen("Edit Suppliers Screen").ids.contact.text = result['contact']
+        self.parent.get_screen("Edit Suppliers Screen").ids.address.text = result['address']
+        self.parent.get_screen("Edit Suppliers Screen").ids.email.text = result['email']
+        self.parent.parent.switch_screen("Edit Suppliers Screen", "left")
 
 class EditReceivingWindow(MDScreen):
     pass
@@ -218,78 +266,62 @@ class AddProductsWindow(MDScreen):
         Snackbar(text = f'{product_name} Created').open()
 
 class ProductsHomeWindow(MDScreen):
-    pass
+    products_url = 'http://127.0.0.1:8000/products/'
+
+    def __init__(self, **kw):
+        super().__init__(**kw)
+        self.data = []
+        UrlRequest(self.products_url, on_success=self.get_products)
+
+    def get_products(self, request, result):
+        for i in result:
+            products_dict = {}
+            products_dict['id'] = str(i['id'])
+            products_dict['product_name'] = i['product_name']
+            self.data.append(products_dict)
+        self.set_search_products()
+
+    def set_search_products(self, text="", search=False):
+        '''Builds a list of users for the screen.'''
+
+        def add_product_item(name):
+            self.ids.products_list.data.append(
+                {
+                    "viewclass": "OneLineListItem",
+                    "text": name,
+                    "on_release": lambda x=name: self.edit_products(x),
+                }
+            )
+        self.ids.products_list.data = []
+        for item in self.data:
+            id = item['id']
+            product_name = item['product_name']
+            name = f'{id} - {product_name}'
+            if search:
+                if text in name:
+                    add_product_item(name)
+            else:
+                add_product_item(name)
+
+    def edit_products(self, name):
+        id = name[0]
+        products_url = self.products_url + f'{id}'
+        UrlRequest(products_url, on_success=self.edit_products_screen)
+        
+    def edit_products_screen(self, request, result):
+        self.parent.get_screen("Edit Products Screen").ids.id.text = str(result['id'])
+        self.parent.get_screen("Edit Products Screen").ids.product_name.text = result['product_name']
+        self.parent.get_screen("Edit Products Screen").ids.quantity.text = str(result['quantity'])
+        self.parent.get_screen("Edit Products Screen").ids.weight.text = str(result['weight'])
+        self.parent.get_screen("Edit Products Screen").ids.price_zwl.text = str(result['price_zwl'])
+        self.parent.get_screen("Edit Products Screen").ids.price_usd.text = str(result['price_usd'])
+        self.parent.get_screen("Edit Products Screen").ids.measurement_category.text = result['measurement_category']
+        self.parent.parent.switch_screen("Edit Products Screen", "left")
 
 class InventoryManagementWindow(MDScreen):
     pass
 
 class InventoryManagement(MDBoxLayout):
-    products_url = 'http://127.0.0.1:8000/products/'
-    #receiving_url = 'http://127.0.0.1:8000/receiving/'
-    suppliers_url = 'http://127.0.0.1:8000/suppliers/'
-
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        UrlRequest(self.products_url, on_success=self.get_products)
-        #UrlRequest(self.receiving_url, on_success=self.get_received_inventory)
-        UrlRequest(self.suppliers_url, on_success=self.get_suppliers)
-
-    def get_products(self, request, result):
-        for i in result:
-            id = i['id']
-            product_name = i['product_name']
-            #product_quantity = i['quantity']
-            #product_weight = i['weight']
-            #price_zwl = i['price_zwl']
-            #price_usd = i['price_usd']
-            #cell_number = i['email']
-            #measurement_category = i['measurement_category']
-            self.ids.inventory_screen_manager.get_screen("Products Home Screen").ids.products_list.add_widget(
-                OneLineAvatarListItem(text=f'{id} -- {product_name}', font_style="H5", 
-                on_release= lambda instance: self.edit_product(instance.text)))
-
-    def edit_product(self, instance):
-        id = instance[0]
-        products_url = self.products_url + f'{id}'
-        UrlRequest(products_url, on_success=self.edit_products_screen)
-        
-    def edit_products_screen(self, request, result):
-        self.ids.inventory_screen_manager.get_screen("Edit Products Screen").ids.id.text = str(result['id'])
-        self.ids.inventory_screen_manager.get_screen("Edit Products Screen").ids.product_name.text = result['product_name']
-        self.ids.inventory_screen_manager.get_screen("Edit Products Screen").ids.quantity.text = str(result['quantity'])
-        self.ids.inventory_screen_manager.get_screen("Edit Products Screen").ids.weight.text = str(result['weight'])
-        self.ids.inventory_screen_manager.get_screen("Edit Products Screen").ids.price_zwl.text = str(result['price_zwl'])
-        self.ids.inventory_screen_manager.get_screen("Edit Products Screen").ids.price_usd.text = str(result['price_usd'])
-        self.ids.inventory_screen_manager.get_screen("Edit Products Screen").ids.measurement_category.text = result['measurement_category']
-        self.switch_screen("Edit Products Screen", "left")
-
-    def get_received_inventory(self, request, result):
-        pass
-
-    def get_suppliers(self, request, result):
-        for i in result:
-            id = i['id']
-            supplier_name = i['supplier_name']
-            #cell_number = i['cell']
-            #supplier_address = i['address']
-            #cell_number = i['email']
-            self.ids.inventory_screen_manager.get_screen("Suppliers Home Screen").ids.suppliers_list.add_widget(
-                OneLineAvatarListItem(text=f'{id} -- {supplier_name}', font_style="H5", 
-                on_release= lambda instance: self.edit_supplier(instance.text)))
-
-    def edit_supplier(self, instance):
-        id = instance[0]
-        suppliers_url = self.suppliers_url + f'{id}'
-        UrlRequest(suppliers_url, on_success=self.edit_supplier_screen)
-        
-    def edit_supplier_screen(self, request, result):
-        self.ids.inventory_screen_manager.get_screen("Edit Suppliers Screen").ids.id.text = str(result['id'])
-        self.ids.inventory_screen_manager.get_screen("Edit Suppliers Screen").ids.supplier_name.text = result['supplier_name']
-        self.ids.inventory_screen_manager.get_screen("Edit Suppliers Screen").ids.contact.text = result['contact']
-        self.ids.inventory_screen_manager.get_screen("Edit Suppliers Screen").ids.address.text = result['address']
-        self.ids.inventory_screen_manager.get_screen("Edit Suppliers Screen").ids.email.text = result['email']
-        self.switch_screen("Edit Suppliers Screen", "left")
-
     def switch_screen(self, screen_name, transition):
         self.ids.inventory_screen_manager.transition.direction = transition
         self.ids.inventory_screen_manager.current = screen_name
