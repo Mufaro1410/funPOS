@@ -1,5 +1,4 @@
-from fastapi import FastAPI, Depends, HTTPException, status, Response
-from sqlalchemy.orm import Session
+from fastapi import FastAPI
 
 from . import models
 from controller.routers import users, credentials, suppliers, products, drawers, customers

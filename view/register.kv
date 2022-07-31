@@ -204,28 +204,50 @@
                 MDBoxLayout:
                     orientation: 'vertical'
                     size_hint: (0.6, 1)
-                    MDBoxLayout:
-                        #orientation: 'horizontal'
-                        size_hint: (1, 0.1)
+                    BoxLayout:
+                        size_hint_y: None
+                        height: self.minimum_height
+                        MDIconButton:
+                            icon: 'magnify'
                         MDTextField:
-                            id: search
-                            hint_text: "search product"
+                            id: search_field
+                            hint_text: 'Search User'
+                            on_text: root.set_search_users(self.text, True)
+                    RecycleView:
+                        id: users_list
+                        key_viewclass: 'viewclass'
+                        key_size: 'height'
+                        #pos_hint:{'center_x': 0.5, 'center_y': 0.5}
+                        RecycleBoxLayout:
+                            padding: dp(10)
+                            default_size: None, dp(48)
+                            default_size_hint: 1, None
+                            size_hint_y: None
+                            height: self.minimum_height
+                            orientation: 'vertical'
+                            callback: True
+                    #MDBoxLayout:
+                    #    #orientation: 'horizontal'
+                    #    size_hint: (1, 0.1)
+                    #    MDTextField:
+                    #        id: search
+                    #        hint_text: "search product"
                             #active_line: False
                             #multiline: False
                             #halign: "center"
                             #on_text: root.search_item(self.text, True)
                             #mode: 'rectangle' 
                     #MDSeparator:
-                    MDScreen:
+                    #MDScreen:
                         #md_bg_color: [127/255,61/255,220/255,1]
-                        size_hint: (1, 0.9)
-                        ScrollView:
-                            MDStackLayout:
-                                id: products_list
-                                orientation: 'lr-tb'
-                                adaptive_height: True 
-                                padding: [10,10,10,10]
-                                spacing:[5, 5]
+                    #    size_hint: (1, 0.9)
+                    #    ScrollView:
+                    #        MDStackLayout:
+                    #            id: products_list
+                    #            orientation: 'lr-tb'
+                    #            adaptive_height: True 
+                    #            padding: [10,10,10,10]
+                    #            spacing:[5, 5]
                 MDBoxLayout:
                     orientation: 'vertical'
                     size_hint: (0.4, 1)

@@ -38,7 +38,7 @@ class EditSuppliersWindow(MDScreen):
         s_address.text = ''
         s_email.text = ''
 
-        url = self.suppliers_url + f'{id}'
+        url =  f'{self.suppliers_url}{id}'
         updated_supplier = {"supplier_name": supplier_name, "contact": contact, "address": address, 
             "email": email}
         updated_supplier_json = json.dumps(updated_supplier)
@@ -187,10 +187,10 @@ class EditProductsWindow(MDScreen):
 
         p_id.text = ''
         p_name.text = ''
-        p_quantity.text = ''
-        p_weight.text = ''
-        p_zwl.text = ''
-        p_usd.text = ''
+        p_quantity.text = '0'
+        p_weight.text = '0.00'
+        p_zwl.text = '0.00'
+        p_usd.text = '0.00'
         measurement_cat.text = ''
 
         url = self.products_url + f'{id}'
@@ -249,10 +249,10 @@ class AddProductsWindow(MDScreen):
         measurement_category = measurement_cat.text
 
         p_name.text = ''
-        p_quantity.text = ''
-        p_weight.text = ''
-        p_zwl.text = ''
-        p_usd.text = ''
+        p_quantity.text = '0'
+        p_weight.text = '0.00'
+        p_zwl.text = '0.00'
+        p_usd.text = '0.00'
         measurement_cat.text = ''
 
         new_product = {"product_name": product_name, "quantity": quantity, "weight": weight, 
